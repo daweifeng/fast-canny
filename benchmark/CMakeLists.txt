@@ -6,7 +6,7 @@ include(CMakePrintHelpers)
 ExternalProject_Add(
     opencv_project
     GIT_REPOSITORY https://github.com/opencv/opencv.git
-    GIT_TAG 4.x
+    GIT_TAG 4.10.0
     SOURCE_DIR ${CMAKE_BINARY_DIR}/external/opencv
     BINARY_DIR ${CMAKE_BINARY_DIR}/external/opencv_build
     INSTALL_DIR ${CMAKE_BINARY_DIR}/external/opencv_install
