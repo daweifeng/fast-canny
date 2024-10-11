@@ -4,7 +4,7 @@ Fast and furious Canny edge detection.
 
 ## Pre-requisites
 
-- Cmake >= 3.22
+- Cmake >= 3.26
 - GCC >= 8.5.0
 
 ## Build
@@ -16,6 +16,11 @@ cmake --build build
 
 ```
 NOTE: When building the whole project, especifally if you are building the opencv benchmark, CMake will download the opencv source code and build it. This will take a while.
+
+## Development
+
+This project is using Devcontainers to provide a consistent development environment. To start the development container, you will need to have Docker installed on your machine. And then on VSCode you can open the project in a container by clicking on the green button on the bottom left corner of the window and selecting "Reopen in Container".
+
 
 ## Run
 
