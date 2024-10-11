@@ -11,7 +11,7 @@ Fast and furious Canny edge detection.
 
 ```bash
 
-cmake -B build
+cmake -B build -G "Unix Makefiles"
 cmake --build build
 
 ```
@@ -31,6 +31,14 @@ To run the OpenCV benchmark, you will need to unzip the images from the COCO dat
 ```bash
 unzip coco_images.zip
 ```
+
+Then you can run the benchmark with the following command:
+
+```bash
+./build/benchmark/opencv_benchmark coco_images/
+```
+
+
 ### Running the image download script
 
 The images in the zip file are downloaded by running the python script `download_coco_images.py`. This script will download the images from the COCO dataset and save them in the `coco_images` folder.
