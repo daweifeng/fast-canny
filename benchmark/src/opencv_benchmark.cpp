@@ -27,9 +27,9 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long st;
   unsigned long long et;
   unsigned long long sum = 0;
+  int imageCount = 0;
 
   for (const auto &p : std::filesystem::directory_iterator(imageMeta.path)) {
-
     cv::Mat image = cv::imread(p.path(), cv::IMREAD_GRAYSCALE);
 
     if (image.empty()) {
@@ -47,16 +47,27 @@ void TestImages(const CocoImageMeta &imageMeta) {
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     et = rdtsc();
-
     sum += (et - st);
+    imageCount++;
   }
 
   // TODO: Find out the correct number of instructions
-  double totalInstructions = imageMeta.width * imageMeta.height;
+  double gaussianFilterKernelFLOPS = 9 + 8;                       // per pixel
+  double intensityGradientsKernelFLOPS = (9 + 8) * 2 + 4 + 2 + 3; // per pixel
+  double gradientMagnitudeThresholdingFLOPS = 2;                  // per pixel
+  double doubleThresholdFLOPS = 2;                                // per pixel
+  double trackEdgeFLOPS = 9;
+
+  double totalFLOPS =
+      imageCount * imageMeta.width * imageMeta.height *
+      (gaussianFilterKernelFLOPS + intensityGradientsKernelFLOPS +
+       gradientMagnitudeThresholdingFLOPS + doubleThresholdFLOPS +
+       trackEdgeFLOPS);
   double cycles = sum * MAX_FREQ / BASE_FREQ;
 
+  std::cout << "Total images: " << imageCount << "\n";
   std::cout << "RDTSC Cycles Taken for Canny: " << cycles << "\n";
-  std::cout << "Instructions Per Cycle" << totalInstructions / cycles << "\n";
+  std::cout << "FLOPS Per Cycle: " << totalFLOPS / cycles << "\n";
 }
 
 int main(int argc, char *argv[]) {
