@@ -39,8 +39,10 @@ def resize_and_save_image(image_info, resolution, size):
         img_resized.save(img_filename)
         print(f"Saved image as {resolution}/{image_info['file_name']}")
     except Exception as e:
-        print(f"Failed to download or resize image {
-              image_info['file_name']}: {e}")
+        print(
+            f"Failed to download or resize image {
+                image_info['file_name']}: {e}"
+        )
 
 
 def download_and_resize_images(images, resolution, size):
@@ -51,8 +53,10 @@ def download_and_resize_images(images, resolution, size):
 
 
 if not os.path.exists(ANNOTATIONS_FILE):
-    print(f"Annotations file not found. Please download it from COCO dataset and place it at: {
-          ANNOTATIONS_FILE}")
+    print(
+        f"Annotations file not found. Please download it from COCO dataset and place it at: {
+            ANNOTATIONS_FILE}"
+    )
 else:
     print("Loading COCO annotations...")
     annotations = load_annotations(ANNOTATIONS_FILE)
@@ -66,5 +70,7 @@ else:
             all_images[:NUMBER_OF_IMAGES_PER_RES], resolution, size)
         all_images = all_images[NUMBER_OF_IMAGES_PER_RES:]
 
-    print(f"Downloaded and resized images to {
-          IMAGES_DIR} in fixed resolutions.")
+    print(
+        f"Downloaded and resized images to {
+            IMAGES_DIR} in fixed resolutions."
+    )
