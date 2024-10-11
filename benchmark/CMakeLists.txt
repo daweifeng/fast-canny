@@ -26,6 +26,10 @@ add_dependencies(opencv_benchmark opencv_project)
 
 target_include_directories(opencv_benchmark PRIVATE ${CMAKE_BINARY_DIR}/external/opencv_install/include/opencv4)
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 9)
+    target_link_libraries(opencv_benchmark stdc++fs)
+endif()
+
 target_link_libraries(opencv_benchmark
 ${OpenCV_LIB_DIR}/libopencv_core.so
 ${OpenCV_LIB_DIR}/libopencv_imgproc.so
