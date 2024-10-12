@@ -28,7 +28,7 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long st;
   unsigned long long et;
   unsigned long long sum = 0;
-  unsigned long long imageCount = 0;
+  unsigned long long runs = 0;
   int repeat = 100;
   std::list<cv::Mat> imageList;
 
@@ -56,7 +56,7 @@ void TestImages(const CocoImageMeta &imageMeta) {
 
       et = rdtsc();
       sum += (et - st);
-      imageCount++;
+      runs++;
     }
   }
 
@@ -68,12 +68,12 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long trackEdgeFLOPS = 9;
 
   unsigned long long totalFLOPS =
-      imageCount * imageMeta.width * imageMeta.height *
+      runs * imageMeta.width * imageMeta.height *
       (gaussianFilterKernelFLOPS + intensityGradientsKernelFLOPS +
        gradientMagnitudeThresholdingFLOPS + doubleThresholdFLOPS +
        trackEdgeFLOPS);
 
-  std::cout << "Total images: " << imageCount << "\n";
+  std::cout << "Total runs: " << runs << "\n";
   std::cout << "RDTSC Cycles Taken for Canny: " << sum << "\n";
   std::cout << "Total FLOPS: " << totalFLOPS << "\n";
   std::cout << "FLOPS Per Cycle: " << totalFLOPS / (sum * MAX_FREQ / BASE_FREQ)
