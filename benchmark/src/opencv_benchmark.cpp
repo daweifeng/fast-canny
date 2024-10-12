@@ -1,5 +1,6 @@
 #include <filesystem>
 #include <iostream>
+#include <list>
 #include <opencv2/opencv.hpp>
 #include <stdexcept>
 #include <string>
@@ -27,7 +28,9 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long st;
   unsigned long long et;
   unsigned long long sum = 0;
-  int imageCount = 0;
+  unsigned long long imageCount = 0;
+  int repeat = 100;
+  std::list<cv::Mat> imageList;
 
   for (const auto &p : std::filesystem::directory_iterator(imageMeta.path)) {
     cv::Mat image = cv::imread(p.path(), cv::IMREAD_GRAYSCALE);
@@ -36,62 +39,89 @@ void TestImages(const CocoImageMeta &imageMeta) {
       throw std::runtime_error("Could not load image: " + p.path().string());
     }
 
-    st = rdtsc();
-
-    cv::Mat blurredImage;
-    cv::Mat edges;
-    cv::GaussianBlur(image, blurredImage,
-                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
-    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
-              CANNY_GRADIENT_UPPER_THRESHOLD);
-
-    et = rdtsc();
-    sum += (et - st);
-    imageCount++;
+    imageList.push_back(image);
   }
 
-  // TODO: Find out the correct number of instructions
-  double gaussianFilterKernelFLOPS = 9 + 8;                       // per pixel
-  double intensityGradientsKernelFLOPS = (9 + 8) * 2 + 4 + 2 + 3; // per pixel
-  double gradientMagnitudeThresholdingFLOPS = 2;                  // per pixel
-  double doubleThresholdFLOPS = 2;                                // per pixel
-  double trackEdgeFLOPS = 9;
+  for (int i = 0; i != repeat; ++i) {
+    for (const auto &image : imageList) {
+      st = rdtsc();
 
-  double totalFLOPS =
+      cv::Mat blurredImage;
+      cv::Mat edges;
+      cv::GaussianBlur(image, blurredImage,
+                       cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                       GAUSSIAN_KERNEL_SIGMA);
+      cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+                CANNY_GRADIENT_UPPER_THRESHOLD);
+
+      et = rdtsc();
+      sum += (et - st);
+      imageCount++;
+    }
+  }
+
+  unsigned long long gaussianFilterKernelFLOPS = 9 + 8; // per pixel
+  unsigned long long intensityGradientsKernelFLOPS =
+      (9 + 8) * 2 + 4 + 3;                                   // per pixel
+  unsigned long long gradientMagnitudeThresholdingFLOPS = 2; // per pixel
+  unsigned long long doubleThresholdFLOPS = 2;               // per pixel
+  unsigned long long trackEdgeFLOPS = 9;
+
+  unsigned long long totalFLOPS =
       imageCount * imageMeta.width * imageMeta.height *
       (gaussianFilterKernelFLOPS + intensityGradientsKernelFLOPS +
        gradientMagnitudeThresholdingFLOPS + doubleThresholdFLOPS +
        trackEdgeFLOPS);
-  double cycles = sum * MAX_FREQ / BASE_FREQ;
 
   std::cout << "Total images: " << imageCount << "\n";
-  std::cout << "RDTSC Cycles Taken for Canny: " << cycles << "\n";
-  std::cout << "FLOPS Per Cycle: " << totalFLOPS / cycles << "\n";
+  std::cout << "RDTSC Cycles Taken for Canny: " << sum << "\n";
+  std::cout << "Total FLOPS: " << totalFLOPS << "\n";
+  std::cout << "FLOPS Per Cycle: " << totalFLOPS / (sum * MAX_FREQ / BASE_FREQ)
+            << "\n";
 }
 
 int main(int argc, char *argv[]) {
   std::filesystem::path cocoImagePath = (std::string)argv[1];
   std::cout << "Coco image path: " << cocoImagePath << "\n";
 
-  CocoImageMeta smallImage = {cocoImagePath / "500x500", 500, 500};
-  CocoImageMeta mediumImage = {cocoImagePath / "800x800", 800, 800};
-  CocoImageMeta largeImage = {cocoImagePath / "1024x1024", 1024, 1024};
+  CocoImageMeta image32 = {cocoImagePath / "32x32", 32, 32};
+  CocoImageMeta image64 = {cocoImagePath / "64x64", 64, 64};
+  CocoImageMeta image128 = {cocoImagePath / "128x128", 128, 128};
+  CocoImageMeta image256 = {cocoImagePath / "256x256", 256, 256};
+  CocoImageMeta image512 = {cocoImagePath / "512x512", 512, 512};
+  CocoImageMeta image1024 = {cocoImagePath / "1024x1024", 1024, 1024};
+  CocoImageMeta image2048 = {cocoImagePath / "2048x2048", 2048, 2048};
 
   try {
-    std::cout << "================================================" << "\n";
-    std::cout << "Testing images in " << smallImage.path << "\n";
-    TestImages(smallImage);
-    std::cout << "================================================" << "\n";
 
     std::cout << "================================================" << "\n";
-    std::cout << "Testing images in " << mediumImage.path << "\n";
-    TestImages(mediumImage);
+
+    std::cout << "Testing images in " << image32.path << "\n";
+    TestImages(image32);
     std::cout << "================================================" << "\n";
 
+    std::cout << "Testing images in " << image64.path << "\n";
+    TestImages(image64);
     std::cout << "================================================" << "\n";
-    std::cout << "Testing images in " << largeImage.path << "\n";
-    TestImages(largeImage);
+
+    std::cout << "Testing images in " << image128.path << "\n";
+    TestImages(image128);
+    std::cout << "================================================" << "\n";
+
+    std::cout << "Testing images in " << image256.path << "\n";
+    TestImages(image256);
+    std::cout << "================================================" << "\n";
+
+    std::cout << "Testing images in " << image512.path << "\n";
+    TestImages(image512);
+    std::cout << "================================================" << "\n";
+
+    std::cout << "Testing images in " << image1024.path << "\n";
+    TestImages(image1024);
+    std::cout << "================================================" << "\n";
+
+    std::cout << "Testing images in " << image2048.path << "\n";
+    TestImages(image2048);
     std::cout << "================================================" << "\n";
   } catch (const std::runtime_error &err) {
     std::cerr << "[ERROR] " << err.what() << "\n";

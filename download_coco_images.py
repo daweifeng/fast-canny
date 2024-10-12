@@ -6,13 +6,17 @@ from io import BytesIO
 
 ANNOTATIONS_FILE = "instances_val2017.json"  # Path to the annotations file
 IMAGES_DIR = "coco_images"
-NUMBER_OF_IMAGES_PER_RES = 100  # 100 images per resolution category
+NUMBER_OF_IMAGES_PER_RES = 10  #  images per resolution category
 
 
 RESOLUTIONS = {
-    "500x500": (500, 500),
-    "800x800": (800, 800),
+    "32x32": (32, 32),
+    "64x64": (64, 64),
+    "128x128": (128, 128),
+    "256x256": (256, 256),
+    "512x512": (512, 512),
     "1024x1024": (1024, 1024),
+    "2048x2048": (2048, 2048)
 }
 
 

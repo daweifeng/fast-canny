@@ -48,5 +48,6 @@ For local python development, you should set up and run the Python virtual envir
 ```bash
  # Only for local development
 pipenv shell
+pipenv install
 python download_coco_images.py
 ```
