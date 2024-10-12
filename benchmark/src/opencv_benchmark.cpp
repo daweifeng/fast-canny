@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
   CocoImageMeta image2048 = {cocoImagePath / "2048x2048", 2048, 2048};
 
   try {
-    cv::setNumThreads(1);
+    cv::setNumThreads(0);
 
     std::cout << "================================================" << "\n";
 
