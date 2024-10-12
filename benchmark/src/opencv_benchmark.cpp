@@ -44,10 +44,10 @@ void TestImages(const CocoImageMeta &imageMeta) {
 
   for (int i = 0; i != repeat; ++i) {
     for (const auto &image : imageList) {
-      st = rdtsc();
-
       cv::Mat blurredImage;
       cv::Mat edges;
+      st = rdtsc();
+
       cv::GaussianBlur(image, blurredImage,
                        cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
                        GAUSSIAN_KERNEL_SIGMA);
@@ -93,6 +93,7 @@ int main(int argc, char *argv[]) {
   CocoImageMeta image2048 = {cocoImagePath / "2048x2048", 2048, 2048};
 
   try {
+    cv::setNumThreads(1);
 
     std::cout << "================================================" << "\n";
 
