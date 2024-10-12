@@ -1,12 +1,13 @@
 #include <filesystem>
 #include <iostream>
-#include <list>
 #include <opencv2/opencv.hpp>
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #define MAX_FREQ 3.4
 #define BASE_FREQ 2.4
+#define NUM_IMAGES_PER_SIZE 10
 #define GAUSSIAN_KERNEL_SIZE 3
 #define GAUSSIAN_KERNEL_SIGMA 0.5
 #define CANNY_GRADIENT_LOWER_THRESHOLD 100
@@ -29,8 +30,9 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long et;
   unsigned long long sum = 0;
   unsigned long long runs = 0;
-  int repeat = 100;
-  std::list<cv::Mat> imageList;
+  int repeat = 1000;
+  std::vector<cv::Mat> images;
+  images.reserve(NUM_IMAGES_PER_SIZE);
 
   for (const auto &p : std::filesystem::directory_iterator(imageMeta.path)) {
     cv::Mat image = cv::imread(p.path(), cv::IMREAD_GRAYSCALE);
@@ -39,25 +41,88 @@ void TestImages(const CocoImageMeta &imageMeta) {
       throw std::runtime_error("Could not load image: " + p.path().string());
     }
 
-    imageList.push_back(image);
+    images.push_back(image);
   }
 
   for (int i = 0; i != repeat; ++i) {
-    for (const auto &image : imageList) {
-      cv::Mat blurredImage;
-      cv::Mat edges;
-      st = rdtsc();
+    cv::Mat image;
+    cv::Mat blurredImage;
+    cv::Mat edges;
+    st = rdtsc();
 
-      cv::GaussianBlur(image, blurredImage,
-                       cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                       GAUSSIAN_KERNEL_SIGMA);
-      cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
-                CANNY_GRADIENT_UPPER_THRESHOLD);
+    image = images[0];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
 
-      et = rdtsc();
-      sum += (et - st);
-      runs++;
-    }
+    image = images[1];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    image = images[2];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    image = images[3];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    image = images[4];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    image = images[5];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    image = images[6];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    image = images[7];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    image = images[8];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    image = images[9];
+    cv::GaussianBlur(image, blurredImage,
+                     cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
+                     GAUSSIAN_KERNEL_SIGMA);
+    cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD);
+
+    et = rdtsc();
+    sum += (et - st);
+    runs++;
   }
 
   unsigned long long gaussianFilterKernelFLOPS = 9 + 8; // per pixel
@@ -68,7 +133,7 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long trackEdgeFLOPS = 9;
 
   unsigned long long totalFLOPS =
-      runs * imageMeta.width * imageMeta.height *
+      10 * runs * imageMeta.width * imageMeta.height *
       (gaussianFilterKernelFLOPS + intensityGradientsKernelFLOPS +
        gradientMagnitudeThresholdingFLOPS + doubleThresholdFLOPS +
        trackEdgeFLOPS);
@@ -90,7 +155,6 @@ int main(int argc, char *argv[]) {
   CocoImageMeta image256 = {cocoImagePath / "256x256", 256, 256};
   CocoImageMeta image512 = {cocoImagePath / "512x512", 512, 512};
   CocoImageMeta image1024 = {cocoImagePath / "1024x1024", 1024, 1024};
-  CocoImageMeta image2048 = {cocoImagePath / "2048x2048", 2048, 2048};
 
   try {
     cv::setNumThreads(0);
@@ -119,10 +183,6 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Testing images in " << image1024.path << "\n";
     TestImages(image1024);
-    std::cout << "================================================" << "\n";
-
-    std::cout << "Testing images in " << image2048.path << "\n";
-    TestImages(image2048);
     std::cout << "================================================" << "\n";
   } catch (const std::runtime_error &err) {
     std::cerr << "[ERROR] " << err.what() << "\n";
