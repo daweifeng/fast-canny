@@ -9,6 +9,15 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(BUILD_BENCHMARK "Build benchmark" ON)
 
+# Enable AVX and FMA
+if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mavx -mfma -O3")
+elseif (CMAKE_CXX_COMPILER_ID MATCHES "MSVC")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:AVX /O2")
+else()
+  message(FATAL_ERROR "Unsupported compiler")
+endif()
+
 include(GNUInstallDirs)
 include(ExternalProject)
 include(CMakePrintHelpers)
