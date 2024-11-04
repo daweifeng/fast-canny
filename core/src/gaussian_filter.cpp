@@ -40,24 +40,39 @@ void GaussianFilter(double *input, double *output, int kernalSize, int width,
   int paddedHeight = height + 2 * halfSize;
 
   // TODO: Consider cache aware optimization
-  for (int i = halfSize; i < height + halfSize; i++) {
+  for (int i = halfSize; i < height + halfSize; i += 4) {
     for (int j = halfSize; j < width + halfSize; j += 4) {
-      __m256d sum = _mm256_setzero_pd();
+      __m256d sum1 = _mm256_setzero_pd();
+      __m256d sum2 = _mm256_setzero_pd();
+      __m256d sum3 = _mm256_setzero_pd();
+      __m256d sum4 = _mm256_setzero_pd();
 
       for (int k = -halfSize; k <= halfSize; k++) {
         for (int l = -halfSize; l <= halfSize; l++) {
-          // x and y are the coordinates of the pixel in the padded matrix
-          int x = i + k;
-          int y = j + l;
-
-          __m256d pixels = _mm256_loadu_pd(&paddedInput[x * paddedWidth + y]);
+          __m256d pixels1 =
+              _mm256_loadu_pd(&paddedInput[(i + k) * paddedWidth + (j + l)]);
+          __m256d pixels2 = _mm256_loadu_pd(
+              &paddedInput[(i + k + 1) * paddedWidth + (j + l)]);
+          __m256d pixels3 = _mm256_loadu_pd(
+              &paddedInput[(i + k + 2) * paddedWidth + (j + l)]);
+          __m256d pixels4 = _mm256_loadu_pd(
+              &paddedInput[(i + k + 3) * paddedWidth + (j + l)]);
           __m256d kernelValue = _mm256_set1_pd(
               kernel[(k + halfSize) * kernalSize + (l + halfSize)]);
-          sum = _mm256_fmadd_pd(pixels, kernelValue, sum);
+          sum1 = _mm256_fmadd_pd(pixels1, kernelValue, sum1);
+          sum2 = _mm256_fmadd_pd(pixels2, kernelValue, sum2);
+          sum3 = _mm256_fmadd_pd(pixels3, kernelValue, sum3);
+          sum4 = _mm256_fmadd_pd(pixels4, kernelValue, sum4);
         }
       }
 
-      _mm256_storeu_pd(&output[(i - halfSize) * width + (j - halfSize)], sum);
+      _mm256_storeu_pd(&output[(i - halfSize) * width + (j - halfSize)], sum1);
+      _mm256_storeu_pd(&output[(i + 1 - halfSize) * width + (j - halfSize)],
+                       sum2);
+      _mm256_storeu_pd(&output[(i + 2 - halfSize) * width + (j - halfSize)],
+                       sum3);
+      _mm256_storeu_pd(&output[(i + 3 - halfSize) * width + (j - halfSize)],
+                       sum4);
     }
   }
 
