@@ -53,70 +53,70 @@ void TestImages(const CocoImageMeta &imageMeta) {
     image = images[0];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[1];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[2];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[3];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[4];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[5];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[6];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[7];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[8];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
     image = images[9];
     cv::GaussianBlur(image, blurredImage,
                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                     GAUSSIAN_KERNEL_SIGMA);
+                     GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
     cv::Canny(blurredImage, edges, CANNY_GRADIENT_LOWER_THRESHOLD,
               CANNY_GRADIENT_UPPER_THRESHOLD);
 
@@ -146,6 +146,11 @@ void TestImages(const CocoImageMeta &imageMeta) {
 }
 
 int main(int argc, char *argv[]) {
+  if (argc != 2) {
+    std::cerr << "Usage: " << argv[0] << " <coco_image_path>\n";
+
+    return -1;
+  }
   std::filesystem::path cocoImagePath = (std::string)argv[1];
   std::cout << "Coco image path: " << cocoImagePath << "\n";
 

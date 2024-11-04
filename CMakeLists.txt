@@ -9,6 +9,27 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(BUILD_BENCHMARK "Build benchmark" ON)
 
+include(GNUInstallDirs)
+include(ExternalProject)
+include(CMakePrintHelpers)
+
+# Download and build OpenCV
+ExternalProject_Add(
+    opencv_project
+    GIT_REPOSITORY https://github.com/opencv/opencv.git
+    GIT_TAG 4.10.0
+    SOURCE_DIR ${CMAKE_BINARY_DIR}/external/opencv
+    BINARY_DIR ${CMAKE_BINARY_DIR}/external/opencv_build
+    INSTALL_DIR ${CMAKE_BINARY_DIR}/external/opencv_install
+    CMAKE_ARGS
+        -DCMAKE_BUILD_TYPE=Release
+        -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/external/opencv_install
+        -DBUILD_LIST=core,imgproc,imgcodecs
+)
+
+set(OpenCV_LIB_DIR ${CMAKE_BINARY_DIR}/external/opencv_install/${CMAKE_INSTALL_LIBDIR})
+
+add_subdirectory(core)
 
 if (BUILD_BENCHMARK)
   add_subdirectory(benchmark)
