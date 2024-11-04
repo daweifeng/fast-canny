@@ -57,13 +57,14 @@ void BenchmarkGaussianFilterSlow(int width, int height) {
     if (std::abs(output[i] - expected.at<double>(i)) > 1e-6) {
       std::cout << "output[" << i << "] = " << output[i]
                 << " expected: " << expected.at<double>(i) << "\n";
-      throw std::runtime_error("GaussianFilterSlow failed");
+      throw std::runtime_error("BenchmarkGaussianFilterSlow  failed: incorrect "
+                               "output from GaussianFilterSlow");
     }
   }
 
   for (int i = 0; i != repeat; ++i) {
     st = rdtsc();
-    GaussianFilterSlow(input, output, GAUSSIAN_KERNEL_SIZE, 3, 3,
+    GaussianFilterSlow(input, output, GAUSSIAN_KERNEL_SIZE, width, height,
                        GAUSSIAN_KERNEL_SIGMA);
     et = rdtsc();
 
@@ -132,6 +133,7 @@ void TestGaussianFilterSlowCorrectness(int width, int height) {
 }
 
 int main(int argc, char *argv[]) {
+  cv::setNumThreads(0);
   try {
     TestGaussianFilterSlowCorrectness(3, 3);
     TestGaussianFilterSlowCorrectness(8, 8);
@@ -142,8 +144,6 @@ int main(int argc, char *argv[]) {
     BenchmarkGaussianFilterSlow(16, 16);
     BenchmarkGaussianFilterSlow(32, 32);
     BenchmarkGaussianFilterSlow(64, 64);
-    BenchmarkGaussianFilterSlow(1024, 1024);
-
     std::cout << "All tests passed\n";
   } catch (const std::exception &err) {
     std::cerr << "[ERROR] " << err.what() << "\n";

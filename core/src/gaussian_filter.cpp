@@ -1,6 +1,5 @@
 #include "gaussian_filter.h"
 #include <cmath>
-#include <iostream>
 
 void GaussianFilter(double *input, double *output, int width, int height,
                     double sigma) {
