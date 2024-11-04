@@ -38,6 +38,14 @@ Then you can run the benchmark with the following command:
 ./build/benchmark/opencv_benchmark coco_images/
 ```
 
+### Running Gaussian Filter benchmark
+
+To run the Gaussian Filter benchmark, you can run the following command:
+
+```bash
+./build/benchmark/gaussian_filter_benchmark
+```
+
 
 ### Running the image download script
 
