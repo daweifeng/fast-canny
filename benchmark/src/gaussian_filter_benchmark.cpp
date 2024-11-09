@@ -100,14 +100,19 @@ void BenchmarkGaussianFilterSlow(int width, int height) {
     referenceTotal += (et - st);
   }
 
+  unsigned long long createFilterFLOPSPS = (4 + 6 + 1 + 1 + 1) * 9;
+  unsigned long long kernalFLOPSPS =
+      2 * 9 * width * height + createFilterFLOPSPS;
+
   std::cout << "Benchmarking matrix size: " << width << "x" << height << "\n";
   std::cout << "RDTSC Cycles Taken for GaussianFilterSlow: " << total << "\n";
   std::cout << "RDTSC Cycles Taken for cv::GaussianBlur: " << referenceTotal
             << "\n";
-  // std::cout << "Total FLOPS: " << totalFLOPS << "\n";
-  // std::cout << "FLOPS Per Cycle: " << totalFLOPS / (sum * MAX_FREQ /
-  // BASE_FREQ)
-  //           << "\n";
+  std::cout << "FLOPS Per Cycle for GaussianFilterSlow: "
+            << repeat * kernalFLOPSPS / (total * MAX_FREQ / BASE_FREQ) << "\n";
+  std::cout << "FLOPS Per Cycle for cv::GaussianBlur: "
+            << repeat * kernalFLOPSPS / (referenceTotal * MAX_FREQ / BASE_FREQ)
+            << "\n";
 
   delete[] input;
   delete[] output;
@@ -174,9 +179,18 @@ void BenchmarkGaussianFilter(int width, int height) {
     referenceTotal += (et - st);
   }
 
+  unsigned long long createFilterFLOPSPS = (4 + 6 + 1 + 1 + 1) * 9;
+  unsigned long long kernalFLOPSPS =
+      2 * 9 * width * height + createFilterFLOPSPS;
+
   std::cout << "Benchmarking matrix size: " << width << "x" << height << "\n";
   std::cout << "RDTSC Cycles Taken for GaussianFilter: " << total << "\n";
   std::cout << "RDTSC Cycles Taken for cv::GaussianBlur: " << referenceTotal
+            << "\n";
+  std::cout << "FLOPS Per Cycle for GaussianFilter: "
+            << repeat * kernalFLOPSPS / (total * MAX_FREQ / BASE_FREQ) << "\n";
+  std::cout << "FLOPS Per Cycle for cv::GaussianBlur: "
+            << repeat * kernalFLOPSPS / (referenceTotal * MAX_FREQ / BASE_FREQ)
             << "\n";
 }
 
@@ -281,6 +295,10 @@ int main(int argc, char *argv[]) {
     TestGaussianFlterCorrectness(4, 4);
     TestGaussianFlterCorrectness(8, 8);
     TestGaussianFlterCorrectness(32, 32);
+    TestGaussianFlterCorrectness(64, 64);
+    TestGaussianFlterCorrectness(128, 128);
+    TestGaussianFlterCorrectness(256, 256);
+    TestGaussianFlterCorrectness(512, 512);
     TestGaussianFlterCorrectness(1024, 1024);
     std::cout << "GaussianFilter correctness passed\n";
 
@@ -289,6 +307,9 @@ int main(int argc, char *argv[]) {
     BenchmarkGaussianFilter(16, 16);
     BenchmarkGaussianFilter(32, 32);
     BenchmarkGaussianFilter(64, 64);
+    BenchmarkGaussianFilter(128, 128);
+    BenchmarkGaussianFilter(256, 256);
+    BenchmarkGaussianFilter(512, 512);
     BenchmarkGaussianFilter(1024, 1024);
 
     std::cout << "All tests passed\n";

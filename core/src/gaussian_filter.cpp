@@ -1,7 +1,9 @@
 #include "gaussian_filter.h"
+#include <cassert>
 #include <cmath>
 #include <cstring>
 #include <immintrin.h>
+#include <iostream>
 
 /**
  * @brief Add Padding to a matrix with a given value
@@ -25,6 +27,11 @@ void PadMatrix(double *input, double *output, int width, int height,
  */
 void GaussianFilter(double *input, double *output, int kernalSize, int width,
                     int height, double sigma) {
+
+  // Assuming width and height are power of 2
+  assert(width > 0 && (width & (width - 1)) == 0);
+  assert(height > 0 && (height & (height - 1)) == 0);
+
   int halfSize = kernalSize / 2;
   double *kernel = new double[kernalSize * kernalSize];
 
@@ -39,41 +46,122 @@ void GaussianFilter(double *input, double *output, int kernalSize, int width,
   int paddedWidth = width + 2 * halfSize;
   int paddedHeight = height + 2 * halfSize;
 
+  __m256d sum1, sum2, sum3, sum4, sum5, sum6, sum7, sum8, sum9, sum10;
+  __m256d pixels1, pixels2, pixels3, pixels4, pixels5, pixels6;
+
+  __m256d kernelValue = _mm256_setzero_pd();
+
   // TODO: Consider cache aware optimization
-  for (int i = halfSize; i < height + halfSize; i += 4) {
-    for (int j = halfSize; j < width + halfSize; j += 4) {
-      __m256d sum1 = _mm256_setzero_pd();
-      __m256d sum2 = _mm256_setzero_pd();
-      __m256d sum3 = _mm256_setzero_pd();
-      __m256d sum4 = _mm256_setzero_pd();
+  // There are 2 FMA units in ECE06 and the latency is 10
+  // We need to have at least 10 FMA to max the performance
+  // SO we are processing 10 * 4 elements each time
+  for (int idx = 0; idx <= width * height - 40; idx += 40) {
+    sum1 = _mm256_setzero_pd();
+    sum2 = _mm256_setzero_pd();
+    sum3 = _mm256_setzero_pd();
+    sum4 = _mm256_setzero_pd();
+    sum5 = _mm256_setzero_pd();
+    sum6 = _mm256_setzero_pd();
+    sum7 = _mm256_setzero_pd();
+    sum8 = _mm256_setzero_pd();
+    sum9 = _mm256_setzero_pd();
+    sum10 = _mm256_setzero_pd();
 
-      for (int k = -halfSize; k <= halfSize; k++) {
-        for (int l = -halfSize; l <= halfSize; l++) {
-          __m256d pixels1 =
-              _mm256_loadu_pd(&paddedInput[(i + k) * paddedWidth + (j + l)]);
-          __m256d pixels2 = _mm256_loadu_pd(
-              &paddedInput[(i + k + 1) * paddedWidth + (j + l)]);
-          __m256d pixels3 = _mm256_loadu_pd(
-              &paddedInput[(i + k + 2) * paddedWidth + (j + l)]);
-          __m256d pixels4 = _mm256_loadu_pd(
-              &paddedInput[(i + k + 3) * paddedWidth + (j + l)]);
-          __m256d kernelValue = _mm256_set1_pd(
-              kernel[(k + halfSize) * kernalSize + (l + halfSize)]);
-          sum1 = _mm256_fmadd_pd(pixels1, kernelValue, sum1);
-          sum2 = _mm256_fmadd_pd(pixels2, kernelValue, sum2);
-          sum3 = _mm256_fmadd_pd(pixels3, kernelValue, sum3);
-          sum4 = _mm256_fmadd_pd(pixels4, kernelValue, sum4);
-        }
+    pixels1 = _mm256_setzero_pd();
+    pixels2 = _mm256_setzero_pd();
+    pixels3 = _mm256_setzero_pd();
+    pixels4 = _mm256_setzero_pd();
+    pixels5 = _mm256_setzero_pd();
+
+    for (int k = -halfSize; k <= halfSize; k++) {
+      for (int l = -halfSize; l <= halfSize; l++) {
+        kernelValue = _mm256_set1_pd(
+            kernel[(k + halfSize) * kernalSize + (l + halfSize)]);
+
+        pixels1 = _mm256_loadu_pd(
+            &paddedInput[((idx) / width + halfSize + k) * paddedWidth +
+                         ((idx) % width + halfSize + l)]);
+        pixels2 = _mm256_loadu_pd(
+            &paddedInput[((idx + 4) / width + halfSize + k) * paddedWidth +
+                         ((idx + 4) % width + halfSize + l)]);
+        pixels3 = _mm256_loadu_pd(
+            &paddedInput[((idx + 8) / width + halfSize + k) * paddedWidth +
+                         ((idx + 8) % width + halfSize + l)]);
+        pixels4 = _mm256_loadu_pd(
+            &paddedInput[((idx + 12) / width + halfSize + k) * paddedWidth +
+                         ((idx + 12) % width + halfSize + l)]);
+        pixels5 = _mm256_loadu_pd(
+            &paddedInput[((idx + 16) / width + halfSize + k) * paddedWidth +
+                         ((idx + 16) % width + halfSize + l)]);
+        sum1 = _mm256_fmadd_pd(pixels1, kernelValue, sum1);
+        sum2 = _mm256_fmadd_pd(pixels2, kernelValue, sum2);
+        sum3 = _mm256_fmadd_pd(pixels3, kernelValue, sum3);
+        sum4 = _mm256_fmadd_pd(pixels4, kernelValue, sum4);
+        sum5 = _mm256_fmadd_pd(pixels5, kernelValue, sum5);
+
+        pixels1 = _mm256_loadu_pd(
+            &paddedInput[((idx + 20) / width + halfSize + k) * paddedWidth +
+                         ((idx + 20) % width + halfSize + l)]);
+        pixels2 = _mm256_loadu_pd(
+            &paddedInput[((idx + 24) / width + halfSize + k) * paddedWidth +
+                         ((idx + 24) % width + halfSize + l)]);
+        pixels3 = _mm256_loadu_pd(
+            &paddedInput[((idx + 28) / width + halfSize + k) * paddedWidth +
+                         ((idx + 28) % width + halfSize + l)]);
+        pixels4 = _mm256_loadu_pd(
+            &paddedInput[((idx + 32) / width + halfSize + k) * paddedWidth +
+                         ((idx + 32) % width + halfSize + l)]);
+        pixels5 = _mm256_loadu_pd(
+            &paddedInput[((idx + 36) / width + halfSize + k) * paddedWidth +
+                         ((idx + 36) % width + halfSize + l)]);
+
+        sum6 = _mm256_fmadd_pd(pixels1, kernelValue, sum6);
+        sum7 = _mm256_fmadd_pd(pixels2, kernelValue, sum7);
+        sum8 = _mm256_fmadd_pd(pixels3, kernelValue, sum8);
+        sum9 = _mm256_fmadd_pd(pixels4, kernelValue, sum9);
+        sum10 = _mm256_fmadd_pd(pixels5, kernelValue, sum10);
       }
-
-      _mm256_storeu_pd(&output[(i - halfSize) * width + (j - halfSize)], sum1);
-      _mm256_storeu_pd(&output[(i + 1 - halfSize) * width + (j - halfSize)],
-                       sum2);
-      _mm256_storeu_pd(&output[(i + 2 - halfSize) * width + (j - halfSize)],
-                       sum3);
-      _mm256_storeu_pd(&output[(i + 3 - halfSize) * width + (j - halfSize)],
-                       sum4);
     }
+
+    _mm256_storeu_pd(&output[((idx) / width) * width + ((idx) % width)], sum1);
+    _mm256_storeu_pd(&output[((idx + 4) / width) * width + ((idx + 4) % width)],
+                     sum2);
+    _mm256_storeu_pd(&output[((idx + 8) / width) * width + ((idx + 8) % width)],
+                     sum3);
+    _mm256_storeu_pd(
+        &output[((idx + 12) / width) * width + ((idx + 12) % width)], sum4);
+    _mm256_storeu_pd(
+        &output[((idx + 16) / width) * width + ((idx + 16) % width)], sum5);
+    _mm256_storeu_pd(
+        &output[((idx + 20) / width) * width + ((idx + 20) % width)], sum6);
+    _mm256_storeu_pd(
+        &output[((idx + 24) / width) * width + ((idx + 24) % width)], sum7);
+    _mm256_storeu_pd(
+        &output[((idx + 28) / width) * width + ((idx + 28) % width)], sum8);
+    _mm256_storeu_pd(
+        &output[((idx + 32) / width) * width + ((idx + 32) % width)], sum9);
+    _mm256_storeu_pd(
+        &output[((idx + 36) / width) * width + ((idx + 36) % width)], sum10);
+  }
+
+  // process the rest of the matrix
+  for (int idx = (width * height / 40) * 40; idx < width * height; idx += 4) {
+    sum1 = _mm256_setzero_pd();
+
+    for (int k = -halfSize; k <= halfSize; k++) {
+      for (int l = -halfSize; l <= halfSize; l++) {
+        kernelValue = _mm256_set1_pd(
+            kernel[(k + halfSize) * kernalSize + (l + halfSize)]);
+
+        pixels1 = _mm256_loadu_pd(
+            &paddedInput[((idx) / width + halfSize + k) * paddedWidth +
+                         ((idx) % width + halfSize + l)]);
+
+        sum1 = _mm256_fmadd_pd(pixels1, kernelValue, sum1);
+      }
+    }
+
+    _mm256_storeu_pd(&output[((idx) / width) * width + ((idx) % width)], sum1);
   }
 
   delete[] paddedInput;

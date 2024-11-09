@@ -59,3 +59,10 @@ pipenv shell
 pipenv install
 python download_coco_images.py
 ```
+
+### Generating assmebly code
+To generate the assembly code for the Gaussian filter benchmark, you can run the following command:
+
+```bash
+objdump -d build/benchmark/gaussian_filter_benchmark > disassembly.S
+```
