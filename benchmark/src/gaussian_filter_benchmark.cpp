@@ -105,10 +105,10 @@ void BenchmarkGaussianFilterSlow(int width, int height) {
       2 * 9 * width * height + createFilterFLOPSPS;
 
   std::cout << "Benchmarking matrix size: " << width << "x" << height << "\n";
-  std::cout << "RDTSC Cycles Taken for GaussianFilter: " << total << "\n";
+  std::cout << "RDTSC Cycles Taken for GaussianFilterSlow: " << total << "\n";
   std::cout << "RDTSC Cycles Taken for cv::GaussianBlur: " << referenceTotal
             << "\n";
-  std::cout << "FLOPS Per Cycle for GaussianFilter: "
+  std::cout << "FLOPS Per Cycle for GaussianFilterSlow: "
             << repeat * kernalFLOPSPS / (total * MAX_FREQ / BASE_FREQ) << "\n";
   std::cout << "FLOPS Per Cycle for cv::GaussianBlur: "
             << repeat * kernalFLOPSPS / (referenceTotal * MAX_FREQ / BASE_FREQ)
