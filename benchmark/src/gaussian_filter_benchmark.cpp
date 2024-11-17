@@ -1,6 +1,7 @@
 #include "gaussian_filter.h"
 #include "opencv2/core/base.hpp"
 #include "opencv2/core/mat.hpp"
+#include "padding.h"
 #include <exception>
 #include <iostream>
 #include <opencv2/opencv.hpp>

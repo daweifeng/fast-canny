@@ -1,4 +1,4 @@
-add_library(core STATIC src/gaussian_filter.cpp)
+add_library(core STATIC src/gaussian_filter.cpp src/hysteresis.cpp src/padding.cpp)
 
 add_dependencies(core opencv_project)
 
