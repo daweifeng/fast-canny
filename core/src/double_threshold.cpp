@@ -24,3 +24,20 @@ void DoubleThreshold(double *input, double *output, int width, int height,
         }
     }
 }
+
+void DoubleThresholdSlow(double *input, double *output, int height, int width, double lowThreshold, double highThreshold){
+    for(int i=1; i<height-1; i++){
+        for(int j=1; j<width-1; j++){
+            if(input[i][j] >= highThreshold){
+                output[i][j] = highThreshold;
+            }
+            else if(lowThreshold <= input[i][j] && input[i][j] <= highThreshold){
+                output[i][j] = lowThreshold;
+            }
+            else{
+                output[i][j] = 0;
+            }
+        }
+    }
+    return;
+}

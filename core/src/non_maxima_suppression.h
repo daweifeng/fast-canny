@@ -4,4 +4,6 @@
 #endif //NON_MAXIMA_SUPPRESSION_H
 #pragma once
 
-void NonMaximaSuppression(double *input, double *output, int width, int height);
+void NonMaximaSuppression(double *input, double *output, double *theta, int width, int height);
+
+void NonMaximaSuppressionSlow(double *input, double *output, double *theta, int height, int width);
