@@ -1,4 +1,7 @@
-add_library(core STATIC src/gaussian_filter.cpp src/gradient.cpp)
+add_library(core STATIC src/gaussian_filter.cpp
+        src/non_maxima_suppression.cpp
+        src/double_threshold.cpp
+        src/gradient.cpp)
 
 add_dependencies(core opencv_project)
 
