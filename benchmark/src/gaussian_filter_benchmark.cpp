@@ -1,6 +1,4 @@
 #include "gaussian_filter.h"
-#include "non_maxima_suppression.h"
-#include "double_threshold.h"
 #include "opencv2/core/base.hpp"
 #include "opencv2/core/mat.hpp"
 #include <exception>
@@ -196,80 +194,6 @@ void BenchmarkGaussianFilter(int width, int height) {
             << "\n";
 }
 
-// void BenchmarkNonMaximaSupp(int width, int height) {
-//   unsigned long long st;
-//   unsigned long long et;
-//   unsigned long long total = 0;
-//   unsigned long long referenceTotal = 0;
-//   int repeat = 1000;
-//   int matrixSize = width * height;
-
-//   int lower_bound = 0;
-//   int upper_bound = 256;
-
-//   std::uniform_int_distribution<int> unif(lower_bound, upper_bound);
-//   std::default_random_engine re;
-
-//   double *input = new double[matrixSize]();
-//   double *output = new double[matrixSize]();
-
-//   // Generate a random input matrix
-//   for (int i = 0; i < matrixSize; i++) {
-//     input[i] = unif(re);
-//     output[i] = 0.0;
-//   }
-
-//   cv::Mat src(height, width, CV_64F, input);
-//   cv::Mat expected;
-
-//   NonMaximaSuppression(input, output, width, height);
-//   cv::GaussianBlur(src, expected,
-//                    cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-//                    GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
-
-//   // Check if the output is correct
-//   for (int i = 0; i < matrixSize; i++) {
-//     if (std::abs(output[i] - expected.at<double>(i)) > 1e-6) {
-//       std::cout << "output[" << i << "] = " << output[i]
-//                 << " expected: " << expected.at<double>(i) << "\n";
-//       throw std::runtime_error("BenchmarkGaussianFilter failed: incorrect "
-//                                "output from GaussianFilter");
-//     }
-//   }
-
-//   for (int i = 0; i != repeat; ++i) {
-//     st = rdtsc();
-//     GaussianFilter(input, output, GAUSSIAN_KERNEL_SIZE, width, height,
-//                    GAUSSIAN_KERNEL_SIGMA);
-//     et = rdtsc();
-
-//     total += (et - st);
-//   }
-
-//   for (int i = 0; i != repeat; ++i) {
-//     st = rdtsc();
-//     cv::GaussianBlur(src, expected,
-//                      cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-//                      GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
-//     et = rdtsc();
-
-//     referenceTotal += (et - st);
-//   }
-
-//   unsigned long long createFilterFLOPSPS = (4 + 6 + 1 + 1 + 1) * 9;
-//   unsigned long long kernalFLOPSPS =
-//       2 * 9 * width * height + createFilterFLOPSPS;
-
-//   std::cout << "Benchmarking matrix size: " << width << "x" << height << "\n";
-//   std::cout << "RDTSC Cycles Taken for GaussianFilter: " << total << "\n";
-//   std::cout << "RDTSC Cycles Taken for cv::GaussianBlur: " << referenceTotal
-//             << "\n";
-//   std::cout << "FLOPS Per Cycle for GaussianFilter: "
-//             << repeat * kernalFLOPSPS / (total * MAX_FREQ / BASE_FREQ) << "\n";
-//   std::cout << "FLOPS Per Cycle for cv::GaussianBlur: "
-//             << repeat * kernalFLOPSPS / (referenceTotal * MAX_FREQ / BASE_FREQ)
-//             << "\n";
-// }
 
 void TestGaussianFilterSlowCorrectness(int width, int height) {
   int matrixSize = width * height;
