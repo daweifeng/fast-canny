@@ -1,104 +1,79 @@
-// #include "non_maxima_suppression.h"
+#include <cmath>
+#include <immintrin.h>
 
-// #include <cassert>
-// #include <immintrin.h>
-// #include <iostream>
+void non_max_suppression_slow(double *input, double *output, double *theta,
+                              int kernalSize, int width, int height,
+                              double sigma) {
+  int padd = 1;
 
-// void NonMaximaSuppression(double *input, double *output, double *theta, int width, int height) {
+  for (int i = padd; i < height - padd; i++) {
+    for (int j = padd; j < width - padd; j++) {
+      int idx = i * width + j;
 
-//     __m256 currentPixel, neighbor1, neighbor2;
-//     __m256 isMax, zero = _mm256_set1_ps(0.0f);
+      double angle = theta[idx] * 180 / M_PI;
+      if (angle < 0) {
+        angle += 180;
+      }
 
-//     for (int i = 1; i < height - 1; i++) {
-//         for (int j = 1; j < width - 1; j += 8) {
-//             currentPixel = _mm256_loadu_ps(&input[i * width + j]);
-//             __m256 angle = _mm256_loadu_ps(&theta[i * width + j]);
+      double q = 255.0;
+      double r = 255.0;
 
-//             // Normalize angle to [0, 180)
-//             angle = _mm256_mul_ps(angle, _mm256_set1_ps(180.0f / M_PI));
-//             angle = _mm256_andnot_ps(_mm256_cmp_ps(angle, _mm256_set1_ps(0.0f), _CMP_LT_OQ), angle);
+      if ((0 <= angle && angle < 22.5) || (157.5 <= angle && angle <= 180)) {
+        q = input[idx + 1];
+        r = input[idx - 1];
+      } else if (22.5 <= angle && angle < 67.5) {
+        q = input[(i + 1) * width + (j - 1)];
+        r = input[(i - 1) * width + (j + 1)];
+      } else if (67.5 <= angle && angle < 112.5) {
+        q = input[(i + 1) * width + j];
+        r = input[(i - 1) * width + j];
+      } else if (112.5 <= angle && angle < 157.5) {
+        q = input[(i - 1) * width + (j - 1)];
+        r = input[(i + 1) * width + (j + 1)];
+      }
 
-//             __m256 mask1 = _mm256_or_ps(
-//                 _mm256_cmp_ps(angle, _mm256_set1_ps(22.5f), _CMP_LT_OQ),
-//                 _mm256_cmp_ps(angle, _mm256_set1_ps(157.5f), _CMP_GE_OQ)
-//             );
-//             neighbor1 = _mm256_loadu_ps(&input[i * width + j + 1]);
-//             neighbor2 = _mm256_loadu_ps(&input[i * width + j - 1]);
+      if (input[idx] >= q && input[idx] >= r) {
+        output[idx] = input[idx];
+      } else {
+        output[idx] = 0.0;
+      }
+    }
+  }
+}
 
-//             // Neighbor selection for 45°
-//             __m256 mask2 = _mm256_and_ps(
-//                 _mm256_cmp_ps(angle, _mm256_set1_ps(22.5f), _CMP_GE_OQ),
-//                 _mm256_cmp_ps(angle, _mm256_set1_ps(67.5f), _CMP_LT_OQ)
-//             );
-//             neighbor1 = _mm256_blendv_ps(neighbor1, _mm256_loadu_ps(&input[(i + 1) * width + j - 1]), mask2);
-//             neighbor2 = _mm256_blendv_ps(neighbor2, _mm256_loadu_ps(&input[(i - 1) * width + j + 1]), mask2);
+void non_max_suppression(double *input, double *output, double *theta,
+                         int kernalSize, int width, int height, double sigma) {
+  int padd = kernalSize / 2;
 
-//             // Neighbor selection for 90°
-//             __m256 mask3 = _mm256_and_ps(
-//                 _mm256_cmp_ps(angle, _mm256_set1_ps(67.5f), _CMP_GE_OQ),
-//                 _mm256_cmp_ps(angle, _mm256_set1_ps(112.5f), _CMP_LT_OQ)
-//             );
-//             neighbor1 = _mm256_blendv_ps(neighbor1, _mm256_loadu_ps(&input[(i + 1) * width + j]), mask3);
-//             neighbor2 = _mm256_blendv_ps(neighbor2, _mm256_loadu_ps(&input[(i - 1) * width + j]), mask3);
+  for (int i = padd; i < height - padd; i++) {
+    for (int j = padd; j < width - padd; j += 4) {
+      int idx = i * width + j;
 
-//             // Neighbor selection for 135°
-//             __m256 mask4 = _mm256_and_ps(
-//                 _mm256_cmp_ps(angle, _mm256_set1_ps(112.5f), _CMP_GE_OQ),
-//                 _mm256_cmp_ps(angle, _mm256_set1_ps(157.5f), _CMP_LT_OQ)
-//             );
-//             neighbor1 = _mm256_blendv_ps(neighbor1, _mm256_loadu_ps(&input[(i - 1) * width + j - 1]), mask4);
-//             neighbor2 = _mm256_blendv_ps(neighbor2, _mm256_loadu_ps(&input[(i + 1) * width + j + 1]), mask4);
+      __m256d angle = _mm256_loadu_pd(&theta[idx]);
+      angle = _mm256_mul_pd(angle, _mm256_set1_pd(180.0 / M_PI));
 
-//             // Check if the current pixel is a local maximum
-//             isMax = _mm256_and_ps(
-//                 _mm256_cmp_ps(currentPixel, neighbor1, _CMP_GE_OQ),
-//                 _mm256_cmp_ps(currentPixel, neighbor2, _CMP_GE_OQ)
-//             );
+      __m256d mask = _mm256_cmp_pd(angle, _mm256_setzero_pd(), _CMP_LT_OS);
+      angle = _mm256_add_pd(angle, _mm256_and_pd(mask, _mm256_set1_pd(180.0)));
 
-//             // Suppress non-maxima
-//             __m256 result = _mm256_blendv_ps(zero, currentPixel, isMax);
+      __m256d q, r;
 
-//             // Store the result
-//             _mm256_storeu_ps(&output[i * width + j], result);
-//         }
-//     }
-// }
+      q = _mm256_set1_pd(255.0);
+      r = _mm256_set1_pd(255.0);
 
-// void NonMaximaSuppressionSlow(double *input, double *output, double *theta, int height, int width) {
-//     for (int i = 1; i < height - 1; i++) {
-//         for (int j = 1; j < width - 1; j++) {
-//             int idx = i * width + j; // Calculate the index for the flattened array
+      __m256d mask1 = _mm256_and_pd(
+          _mm256_cmp_pd(angle, _mm256_set1_pd(22.5), _CMP_GE_OS),
+          _mm256_cmp_pd(angle, _mm256_set1_pd(157.5), _CMP_LT_OS));
+      q = _mm256_blendv_pd(q, _mm256_loadu_pd(&input[idx + 1]), mask1);
+      r = _mm256_blendv_pd(r, _mm256_loadu_pd(&input[idx - 1]), mask1);
 
-//             // Normalize theta to [0, 180)
-//             theta[idx] = theta[idx] * 180 / M_PI;
-//             if (theta[idx] < 0) {
-//                 theta[idx] += 180;
-//             }
+      __m256d input_val = _mm256_loadu_pd(&input[idx]);
+      __m256d result = _mm256_max_pd(_mm256_max_pd(input_val, q), r);
 
-//             double q = 255.0;
-//             double r = 255.0;
+      __m256d output_val =
+          _mm256_blendv_pd(_mm256_setzero_pd(), result,
+                           _mm256_cmp_pd(input_val, result, _CMP_GE_OS));
 
-//             // Determine neighbors based on theta
-//             if ((0 <= theta[idx] && theta[idx] < 22.5) || (157.5 <= theta[idx] && theta[idx] <= 180)) {
-//                 q = input[idx + 1];     // Right neighbor
-//                 r = input[idx - 1];     // Left neighbor
-//             } else if (22.5 <= theta[idx] && theta[idx] < 67.5) {
-//                 q = input[(i + 1) * width + j - 1]; // Bottom-left neighbor
-//                 r = input[(i - 1) * width + j + 1]; // Top-right neighbor
-//             } else if (67.5 <= theta[idx] && theta[idx] < 112.5) {
-//                 q = input[(i + 1) * width + j];     // Bottom neighbor
-//                 r = input[(i - 1) * width + j];     // Top neighbor
-//             } else if (112.5 <= theta[idx] && theta[idx] < 157.5) {
-//                 q = input[(i - 1) * width + j - 1]; // Top-left neighbor
-//                 r = input[(i + 1) * width + j + 1]; // Bottom-right neighbor
-//             }
-
-//             // Check if the current pixel is a local maximum
-//             if (input[idx] >= q && input[idx] >= r) {
-//                 output[idx] = input[idx];
-//             } else {
-//                 output[idx] = 0.0;
-//             }
-//         }
-//     }
-// }
+      _mm256_storeu_pd(&output[idx], output_val);
+    }
+  }
+}

@@ -1,11 +1,9 @@
 #ifndef DOUBLE_THRESHOLD_H
 #define DOUBLE_THRESHOLD_H
 
-#endif //DOUBLE_THRESHOLD_H
-#pragma once
+void double_threshold_slow(double *input, double *output, int width, int height,
+                           double low_thres = 50, double high_thres = 100);
+void double_threshold(double *input, double *output, int width, int height,
+                      double low_thres = 50, double high_thres = 100);
 
-void DoubleThreshold(double *input, double *output, int width, int height,
-                     double lowThreshold, double highThreshold);
-
-// void DoubleThresholdSlow(double *input, double *output, int height, int width,
-//                      double lowThreshold, double highThreshold);
+#endif // DOUBLE_THRESHOLD_H

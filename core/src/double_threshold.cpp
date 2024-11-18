@@ -1,61 +1,55 @@
-#include "double_threshold.h"
+#include <algorithm>
+#include <cmath>
+#include <cstdio>
 #include <immintrin.h>
-#include <iostream>
 
-
-void DoubleThreshold(double *input, double *output, int width, int height,
-                     double lowThreshold, double highThreshold) {
-
-    __m256d lowTh, highTh, pixelValue, strongEdge, weakEdge, zero, highVal, lowVal;
-
-    lowTh = _mm256_set1_pd(lowThreshold);
-    highTh = _mm256_set1_pd(highThreshold);
-    zero = _mm256_setzero_pd();
-    highVal = _mm256_set1_pd(highThreshold);
-    lowVal = _mm256_set1_pd(lowThreshold);
-
-    for (int i = 1; i < height - 1; i++) {
-        for (int j = 1; j < width - 1; j += 4) {
-            // Load four double-precision values
-            pixelValue = _mm256_loadu_pd(&input[i * width + j]);
-
-            // Condition for strong edges (>= highThreshold)
-            strongEdge = _mm256_cmp_pd(pixelValue, highTh, _CMP_GE_OQ);
-
-            // Condition for weak edges (lowThreshold <= value <= highThreshold)
-            weakEdge = _mm256_and_pd(
-                _mm256_cmp_pd(pixelValue, lowTh, _CMP_GE_OQ),
-                _mm256_cmp_pd(pixelValue, highTh, _CMP_LE_OQ)
-            );
-
-            // Assign highThreshold to strong edges
-            __m256d strongResult = _mm256_blendv_pd(zero, highVal, strongEdge);
-
-            // Assign lowThreshold to weak edges
-            __m256d weakResult = _mm256_blendv_pd(zero, lowVal, weakEdge);
-
-            // Combine results (priority to strong edges)
-            pixelValue = _mm256_add_pd(strongResult, weakResult);
-
-            // Store the result
-            _mm256_storeu_pd(&output[i * width + j], pixelValue);
-        }
+void double_threshold_slow(double *input, double *output, int width, int height,
+                           double low_thres = 50, double high_thres = 100) {
+  for (int i = 0; i < height; ++i) {
+    for (int j = 0; j < width; ++j) {
+      int idx = i * width + j;
+      if (input[idx] >= high_thres) {
+        output[idx] = high_thres;
+      } else if (input[idx] >= low_thres && input[idx] <= high_thres) {
+        output[idx] = low_thres;
+      } else {
+        output[idx] = 0;
+      }
     }
+  }
 }
 
-// void DoubleThresholdSlow(double *input, double *output, int height, int width, double lowThreshold, double highThreshold){
-//     for(int i=1; i<height-1; i++){
-//         for(int j=1; j<width-1; j++){
-//             if(input[i][j] >= highThreshold){
-//                 output[i][j] = highThreshold;
-//             }
-//             else if(lowThreshold <= input[i][j] && input[i][j] <= highThreshold){
-//                 output[i][j] = lowThreshold;
-//             }
-//             else{
-//                 output[i][j] = 0;
-//             }
-//         }
-//     }
-//     return;
-// }
+void double_threshold(double *input, double *output, int width, int height,
+                      double low_thres = 50, double high_thres = 100) {
+  int size = width * height;
+
+  int i = 0;
+
+  for (; i <= size - 4; i += 4) {
+    __m256d input_vals = _mm256_loadu_pd(&input[i]);
+
+    __m256d low_vals = _mm256_set1_pd(low_thres);
+    __m256d high_vals = _mm256_set1_pd(high_thres);
+
+    __m256d high_mask = _mm256_cmp_pd(input_vals, high_vals, _CMP_GE_OS);
+    __m256d low_mask = _mm256_andnot_pd(
+        high_mask, _mm256_cmp_pd(input_vals, low_vals, _CMP_GE_OS));
+
+    __m256d result =
+        _mm256_blendv_pd(_mm256_setzero_pd(), high_vals, high_mask);
+
+    result = _mm256_blendv_pd(result, low_vals, low_mask);
+
+    _mm256_storeu_pd(&output[i], result);
+  }
+
+  for (; i < size; i++) {
+    if (input[i] >= high_thres) {
+      output[i] = high_thres;
+    } else if (input[i] >= low_thres) {
+      output[i] = low_thres;
+    } else {
+      output[i] = 0;
+    }
+  }
+}
