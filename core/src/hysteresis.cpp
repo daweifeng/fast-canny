@@ -1,6 +1,7 @@
 #include "hysteresis.h"
 #include "padding.h"
 #include <cassert>
+#include <cstring>
 #include <immintrin.h>
 #include <iostream>
 #include <queue>
@@ -87,11 +88,12 @@ void HysteresisSlow(double *input, double *output, int width, int height,
 
 void HysteresisIteration(double *input, double *output, int width, int height,
                          double lowThreshold, double highThreshold) {
-  // Direction vectors for the 8-connected neighborhood
-  const int dx[8] = {-1, 0, 1, -1, 1, -1, 0, 1};
-  const int dy[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
+  // Threshold values
+  const double STRONG_EDGE = 255.0;
+  const double WEAK_EDGE = 128.0;
+  const double NON_EDGE = 0.0;
 
-  // Initialize the edge map
+  // Initialize the edge map (thresholding)
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       int idx = y * width + x;
@@ -99,98 +101,166 @@ void HysteresisIteration(double *input, double *output, int width, int height,
 
       if (pixelValue >= highThreshold) {
         // Mark as strong edge
-        input[idx] = 255.0;
+        input[idx] = STRONG_EDGE;
       } else if (pixelValue >= lowThreshold) {
         // Mark as weak edge
-        input[idx] = 128.0;
+        input[idx] = WEAK_EDGE;
       } else {
         // Suppress non-edges
-        input[idx] = 0.0;
+        input[idx] = NON_EDGE;
       }
     }
   }
 
+  // Define padded dimensions
   int paddedWidth = width + 2;
   int paddedHeight = height + 2;
 
-  double *paddedInput = new double[paddedWidth * paddedHeight];
+  // Allocate aligned memory for padded input (32-byte alignment for AVX2)
+  double *paddedInput =
+      (double *)_mm_malloc(paddedWidth * paddedHeight * sizeof(double), 32);
+  if (!paddedInput) {
+    std::cerr << "Error: Memory allocation failed." << std::endl;
+    return;
+  }
+
   // Add 0 padding to the input matrix
   PadMatrix(input, paddedInput, width, height, 1, 0);
 
+  // Define neighbor offsets based on paddedWidth
+  const int numNeighbors = 9;
+  int neighborOffsets[numNeighbors] = {
+      -paddedWidth - 1, -paddedWidth, -paddedWidth + 1, -1, 0, 1,
+      paddedWidth - 1,  paddedWidth,  paddedWidth + 1};
+
+  // SIMD constants
+  const int simdWidth = 8; // Total pixels processed per iteration (unrolled)
+  const int simdWidthPerVector = 4; // Pixels per SIMD vector (__m256d)
+  __m256d strongEdgeValue = _mm256_set1_pd(STRONG_EDGE);
+  __m256d weakEdgeValue = _mm256_set1_pd(WEAK_EDGE);
+
   bool changed;
+  int count = 0;
   do {
+    count++;
     changed = false;
 
-    const int simdWidth = 4; // Number of pixels processed simultaneously
-
     for (int y = 1; y < paddedHeight - 1; y++) {
-      for (int x = 1; x < paddedWidth - 1; x += simdWidth) {
+      int x;
+      for (x = 1; x <= paddedWidth - 1 - simdWidth; x += simdWidth) {
         int idx = y * paddedWidth + x;
 
-        // Load 4 pixels
-        __m256d currentPixels = _mm256_load_pd(&paddedInput[idx]);
+        // Load center pixels for low and high parts
+        __m256d centerPixelsLo = _mm256_loadu_pd(&paddedInput[idx]);
+        __m256d centerPixelsHi =
+            _mm256_loadu_pd(&paddedInput[idx + simdWidthPerVector]);
 
-        // Compare with 128.0 (weak edge)
-        __m256d weakEdgeValue = _mm256_set1_pd(128.0);
-        __m256d cmpWeakEdges =
-            _mm256_cmp_pd(currentPixels, weakEdgeValue, _CMP_EQ_OQ);
+        // Compare with weak edge value
+        __m256d isWeakEdgeLo =
+            _mm256_cmp_pd(centerPixelsLo, weakEdgeValue, _CMP_EQ_OQ);
+        __m256d isWeakEdgeHi =
+            _mm256_cmp_pd(centerPixelsHi, weakEdgeValue, _CMP_EQ_OQ);
 
-        // Create a mask of weak edges
-        int mask = _mm256_movemask_pd(cmpWeakEdges);
+        // Create masks
+        int weakEdgeMaskLo = _mm256_movemask_pd(isWeakEdgeLo);
+        int weakEdgeMaskHi = _mm256_movemask_pd(isWeakEdgeHi);
 
-        if (mask == 0) {
-          // No weak edges in this group, continue to next iteration
+        if (weakEdgeMaskLo == 0 && weakEdgeMaskHi == 0) {
+          // No weak edges in this group
           continue;
         }
 
-        // For weak edges, check neighbors
-        for (int i = 0; i < simdWidth; i++) {
-          if ((mask & (1 << i)) == 0) {
-            // Not a weak edge, skip
-            continue;
-          }
+        // Initialize promotion masks
+        __m256d promoteMaskLo = _mm256_setzero_pd();
+        __m256d promoteMaskHi = _mm256_setzero_pd();
 
-          int xi = x + i;
-          int idx_i = y * paddedWidth + xi;
-          bool hasStrongNeighbor = false;
+        // Check all 9 neighbors
+        for (int n = 0; n < numNeighbors; n++) {
+          int neighborOffset = neighborOffsets[n];
 
-          // Check 8-connected neighbors
-          for (int n = 0; n < 8; n++) {
-            int nx = xi + dx[n];
-            int ny = y + dy[n];
-            int nidx = ny * paddedWidth + nx;
+          // Load neighbor pixels for low and high parts
+          __m256d neighborPixelsLo =
+              _mm256_loadu_pd(&paddedInput[idx + neighborOffset]);
+          __m256d neighborPixelsHi = _mm256_loadu_pd(
+              &paddedInput[idx + simdWidthPerVector + neighborOffset]);
 
-            if (paddedInput[nidx] == 255.0) {
-              hasStrongNeighbor = true;
-              break;
-            }
-          }
+          // Compare neighbor pixels with strong edge value
+          __m256d isStrongNeighborLo =
+              _mm256_cmp_pd(neighborPixelsLo, strongEdgeValue, _CMP_EQ_OQ);
+          __m256d isStrongNeighborHi =
+              _mm256_cmp_pd(neighborPixelsHi, strongEdgeValue, _CMP_EQ_OQ);
 
-          if (hasStrongNeighbor) {
-            paddedInput[idx_i] = 255.0;
-            changed = true;
-          }
+          // Accumulate promotion masks
+          promoteMaskLo = _mm256_or_pd(promoteMaskLo, isStrongNeighborLo);
+          promoteMaskHi = _mm256_or_pd(promoteMaskHi, isStrongNeighborHi);
+        }
+
+        // Determine final promotion masks for weak edges
+        __m256d finalPromotionMaskLo =
+            _mm256_and_pd(promoteMaskLo, isWeakEdgeLo);
+        __m256d finalPromotionMaskHi =
+            _mm256_and_pd(promoteMaskHi, isWeakEdgeHi);
+
+        // Update center pixels: promote to strong edge where applicable
+        centerPixelsLo = _mm256_blendv_pd(centerPixelsLo, strongEdgeValue,
+                                          finalPromotionMaskLo);
+        centerPixelsHi = _mm256_blendv_pd(centerPixelsHi, strongEdgeValue,
+                                          finalPromotionMaskHi);
+
+        // Store updated center pixels
+        _mm256_storeu_pd(&paddedInput[idx], centerPixelsLo);
+        _mm256_storeu_pd(&paddedInput[idx + simdWidthPerVector],
+                         centerPixelsHi);
+
+        // Check if any promotions occurred
+        int promotionMaskLo = _mm256_movemask_pd(finalPromotionMaskLo);
+        int promotionMaskHi = _mm256_movemask_pd(finalPromotionMaskHi);
+        if (promotionMaskLo != 0 || promotionMaskHi != 0) {
+          changed = true;
         }
       }
-    }
 
+      // Handle remaining pixels at the end of the row
+      // for (; x < paddedWidth - 1; x++) {
+      //   int idx = y * paddedWidth + x;
+      //   double centerPixel = paddedInput[idx];
+
+      //   if (centerPixel == WEAK_EDGE) { // Weak edge
+      //     bool hasStrongNeighbor = false;
+      //     for (int n = 0; n < numNeighbors; n++) {
+      //       int neighborOffset = neighborOffsets[n];
+      //       double neighborPixel = paddedInput[idx + neighborOffset];
+      //       if (neighborPixel == STRONG_EDGE) {
+      //         hasStrongNeighbor = true;
+      //         break;
+      //       }
+      //     }
+      //     if (hasStrongNeighbor) {
+      //       paddedInput[idx] = STRONG_EDGE;
+      //       changed = true;
+      //     }
+      //   }
+      // }
+    }
   } while (changed);
 
   // Suppress remaining weak edges
   for (int i = 0; i < paddedWidth * paddedHeight; i++) {
-    if (paddedInput[i] != 255.0) {
-      paddedInput[i] = 0.0;
+    if (paddedInput[i] != STRONG_EDGE) {
+      paddedInput[i] = NON_EDGE;
     }
   }
 
-  for (int y = 1; y < paddedHeight; y++) {
-    for (int x = 1; x < paddedWidth; x++) {
-      int idx = y * paddedWidth + x;
-      int outputIdx = (y - 1) * width + (x - 1);
-
-      output[outputIdx] = paddedInput[idx];
-    }
+  // Copy data back to output array (excluding padding)
+  for (int y = 1; y < paddedHeight - 1; y++) {
+    int paddedIdx = y * paddedWidth + 1;
+    int outputIdx = (y - 1) * width;
+    std::memcpy(&output[outputIdx], &paddedInput[paddedIdx],
+                width * sizeof(double));
   }
+
+  // Free allocated memory
+  _mm_free(paddedInput);
 }
 
 void HysteresisQueue(double *input, double *output, int width, int height,
@@ -277,5 +347,6 @@ void HysteresisQueue(double *input, double *output, int width, int height,
 
 void Hysteresis(double *input, double *output, int width, int height,
                 double lowThreshold, double highThreshold) {
-  HysteresisQueue(input, output, width, height, lowThreshold, highThreshold);
+  HysteresisIteration(input, output, width, height, lowThreshold,
+                      highThreshold);
 };

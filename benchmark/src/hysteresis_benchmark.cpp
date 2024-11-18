@@ -95,12 +95,14 @@ void BenchmarkHysteresisFilledWithEdges(int width, int height) {
     total += (et - st);
   }
 
-  unsigned long long kernalFLOPSPS = width * height * 8 + width * height;
+  // TODO: need to confirm if it is the right way to meansure performance
+  // It is assuming for each pixel, it needs to compare with 8 neighbors
+  unsigned long long kernalFLOPS = width * height * 8;
 
   std::cout << "Benchmarking matrix size: " << width << "x" << height << "\n";
   std::cout << "RDTSC Cycles Taken for Hysteresis: " << total << "\n";
   std::cout << "FLOPS Per Cycle for Hysteresis: "
-            << repeat * kernalFLOPSPS / (total * MAX_FREQ / BASE_FREQ) << "\n";
+            << repeat * kernalFLOPS / (total * MAX_FREQ / BASE_FREQ) << "\n";
 }
 
 int main() {
@@ -108,7 +110,12 @@ int main() {
     TestHysteresisFilledWithEdges(8, 8);
     TestHysteresisOneEdge(8, 8);
 
+    BenchmarkHysteresisFilledWithEdges(32, 32);
     BenchmarkHysteresisFilledWithEdges(64, 64);
+    BenchmarkHysteresisFilledWithEdges(128, 128);
+    BenchmarkHysteresisFilledWithEdges(256, 256);
+    BenchmarkHysteresisFilledWithEdges(512, 512);
+    BenchmarkHysteresisFilledWithEdges(1024, 1024);
 
     std::cout << "All tests passed" << "\n";
   } catch (const std::exception &err) {
