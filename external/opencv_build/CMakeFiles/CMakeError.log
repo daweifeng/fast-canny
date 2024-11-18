@@ -1,0 +1,513 @@
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-Wnon-virtual-dtor’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type  -Wnon-virtual-dtor'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b98e6/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_b98e6.dir/build.make CMakeFiles/cmTC_b98e6.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b98e6.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type  -Wnon-virtual-dtor -o CMakeFiles/cmTC_b98e6.dir/src.c.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-Wnon-virtual-dtor’ is valid for C++/ObjC++ but not for C
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+Linking C executable cmTC_b98e6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b98e6.dir/link.txt --verbose=1
+/usr/bin/cc -O3 -DNDEBUG CMakeFiles/cmTC_b98e6.dir/src.c.o -o cmTC_b98e6 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C\+\+'
+    Output line: 'cc1plus: warning: command line option ‘-Wmissing-prototypes’ is valid for C/ObjC but not for C++'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations  -Wmissing-prototypes'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1ac0d/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_1ac0d.dir/build.make CMakeFiles/cmTC_1ac0d.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_1ac0d.dir/src.cxx.o
+/usr/bin/c++   -O3 -DNDEBUG -std=c++11 -fPIE    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations  -Wmissing-prototypes -o CMakeFiles/cmTC_1ac0d.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+cc1plus: warning: command line option ‘-Wmissing-prototypes’ is valid for C/ObjC but not for C++
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+Linking CXX executable cmTC_1ac0d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1ac0d.dir/link.txt --verbose=1
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/cmTC_1ac0d.dir/src.cxx.o -o cmTC_1ac0d 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C\+\+'
+    Output line: 'cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations  -Wstrict-prototypes'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4370e/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_4370e.dir/build.make CMakeFiles/cmTC_4370e.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4370e.dir/src.cxx.o
+/usr/bin/c++   -O3 -DNDEBUG -std=c++11 -fPIE    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations  -Wstrict-prototypes -o CMakeFiles/cmTC_4370e.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+cc1plus: warning: command line option ‘-Wstrict-prototypes’ is valid for C/ObjC but not for C++
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+Linking CXX executable cmTC_4370e
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4370e.dir/link.txt --verbose=1
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/cmTC_4370e.dir/src.cxx.o -o cmTC_4370e 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-Wsign-promo’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow  -Wsign-promo'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4a769/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_4a769.dir/build.make CMakeFiles/cmTC_4a769.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4a769.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow  -Wsign-promo -o CMakeFiles/cmTC_4a769.dir/src.c.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-Wsign-promo’ is valid for C++/ObjC++ but not for C
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+Linking C executable cmTC_4a769
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4a769.dir/link.txt --verbose=1
+/usr/bin/cc -O3 -DNDEBUG CMakeFiles/cmTC_4a769.dir/src.c.o -o cmTC_4a769 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-Wsuggest-override’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wsuggest-override'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_5571d/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_5571d.dir/build.make CMakeFiles/cmTC_5571d.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5571d.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wsuggest-override -o CMakeFiles/cmTC_5571d.dir/src.c.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-Wsuggest-override’ is valid for C++/ObjC++ but not for C
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+Linking C executable cmTC_5571d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5571d.dir/link.txt --verbose=1
+/usr/bin/cc -O3 -DNDEBUG CMakeFiles/cmTC_5571d.dir/src.c.o -o cmTC_5571d 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-Wno-delete-non-virtual-dtor’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wno-delete-non-virtual-dtor'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b9b44/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_b9b44.dir/build.make CMakeFiles/cmTC_b9b44.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b9b44.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wno-delete-non-virtual-dtor -o CMakeFiles/cmTC_b9b44.dir/src.c.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-Wno-delete-non-virtual-dtor’ is valid for C++/ObjC++ but not for C
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+Linking C executable cmTC_b9b44
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b9b44.dir/link.txt --verbose=1
+/usr/bin/cc -O3 -DNDEBUG CMakeFiles/cmTC_b9b44.dir/src.c.o -o cmTC_b9b44 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-unnamed-type-template-args’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor  -Wno-unnamed-type-template-args'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3548b/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_3548b.dir/build.make CMakeFiles/cmTC_3548b.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_3548b.dir/src.cxx.o
+/usr/bin/c++   -O3 -DNDEBUG -std=c++11 -fPIE    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wundef -Winit-self -Wpointer-arith -Wshadow -Wsign-promo -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor  -Wno-unnamed-type-template-args -o CMakeFiles/cmTC_3548b.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1plus: warning: unrecognized command line option ‘-Wno-unnamed-type-template-args’
+Linking CXX executable cmTC_3548b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3548b.dir/link.txt --verbose=1
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/cmTC_3548b.dir/src.cxx.o -o cmTC_3548b 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1: warning: unrecognized command line option ‘-Wno-unnamed-type-template-args’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wno-unnamed-type-template-args'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_448b0/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_448b0.dir/build.make CMakeFiles/cmTC_448b0.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_448b0.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized  -Wno-unnamed-type-template-args -o CMakeFiles/cmTC_448b0.dir/src.c.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1: warning: unrecognized command line option ‘-Wno-unnamed-type-template-args’
+Linking C executable cmTC_448b0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_448b0.dir/link.txt --verbose=1
+/usr/bin/cc -O3 -DNDEBUG CMakeFiles/cmTC_448b0.dir/src.c.o -o cmTC_448b0 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C'
+    Output line: 'cc1: warning: command line option ‘-fvisibility-inlines-hidden’ is valid for C++/ObjC++ but not for C'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -fvisibility-inlines-hidden'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a8ef9/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_a8ef9.dir/build.make CMakeFiles/cmTC_a8ef9.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a8ef9.dir/src.c.o
+/usr/bin/cc   -O3 -DNDEBUG -fPIE    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -fvisibility-inlines-hidden -o CMakeFiles/cmTC_a8ef9.dir/src.c.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c
+cc1: warning: command line option ‘-fvisibility-inlines-hidden’ is valid for C++/ObjC++ but not for C
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+Linking C executable cmTC_a8ef9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a8ef9.dir/link.txt --verbose=1
+/usr/bin/cc -O3 -DNDEBUG CMakeFiles/cmTC_a8ef9.dir/src.c.o -o cmTC_a8ef9 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1: warning: unrecognized command line option ‘-Wno-implicit-const-int-float-conversion’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-implicit-const-int-float-conversion'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a866d/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_a866d.dir/build.make CMakeFiles/cmTC_a866d.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_a866d.dir/src.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG -fPIE    -Wno-implicit-const-int-float-conversion -o CMakeFiles/cmTC_a866d.dir/src.c.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1: warning: unrecognized command line option ‘-Wno-implicit-const-int-float-conversion’
+Linking C executable cmTC_a866d
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a866d.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wmissing-declarations -Wmissing-prototypes -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_a866d.dir/src.c.o -o cmTC_a866d 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1: warning: unrecognized command line option ‘-Wno-documentation’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c'
+    check option: ' -Wno-documentation'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4c978/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_4c978.dir/build.make CMakeFiles/cmTC_4c978.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_4c978.dir/src.c.o
+/usr/bin/cc   -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -Wno-unused-but-set-variable -Wno-missing-prototypes -Wno-missing-declarations  -O3 -DNDEBUG  -DNDEBUG -fPIE    -Wno-documentation -o CMakeFiles/cmTC_4c978.dir/src.c.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.c:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1: warning: unrecognized command line option ‘-Wno-documentation’
+Linking C executable cmTC_4c978
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4c978.dir/link.txt --verbose=1
+/usr/bin/cc    -fsigned-char -W -Wall -Wreturn-type -Waddress -Wsequence-point -Wformat -Wformat-security -Wstrict-prototypes -Wundef -Winit-self -Wpointer-arith -Wshadow -Wuninitialized -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -Wno-unused-but-set-variable -Wno-missing-prototypes -Wno-missing-declarations  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_4c978.dir/src.c.o -o cmTC_4c978 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-inconsistent-missing-override’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-inconsistent-missing-override'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1d333/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_1d333.dir/build.make CMakeFiles/cmTC_1d333.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_1d333.dir/src.cxx.o
+/usr/bin/c++   -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override  -O3 -DNDEBUG  -DNDEBUG -std=c++11 -fPIE    -Wno-inconsistent-missing-override -o CMakeFiles/cmTC_1d333.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1plus: warning: unrecognized command line option ‘-Wno-inconsistent-missing-override’
+Linking CXX executable cmTC_1d333
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1d333.dir/link.txt --verbose=1
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_1d333.dir/src.cxx.o -o cmTC_1d333 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'command[- ]line option .* is valid for .* but not for C\+\+'
+    Output line: 'cc1plus: warning: command line option ‘-Wno-missing-prototypes’ is valid for C/ObjC but not for C++'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-missing-prototypes'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_69689/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_69689.dir/build.make CMakeFiles/cmTC_69689.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_69689.dir/src.cxx.o
+/usr/bin/c++   -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override -Wno-implicit-fallthrough -Wno-tautological-compare  -O3 -DNDEBUG  -DNDEBUG -std=c++11 -fPIE    -Wno-missing-prototypes -o CMakeFiles/cmTC_69689.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+cc1plus: warning: command line option ‘-Wno-missing-prototypes’ is valid for C/ObjC but not for C++
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+Linking CXX executable cmTC_69689
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_69689.dir/link.txt --verbose=1
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override -Wno-implicit-fallthrough -Wno-tautological-compare  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_69689.dir/src.cxx.o -o cmTC_69689 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-implicit-const-int-float-conversion’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-implicit-const-int-float-conversion'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ab159/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_ab159.dir/build.make CMakeFiles/cmTC_ab159.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ab159.dir/src.cxx.o
+/usr/bin/c++   -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override -Wno-implicit-fallthrough -Wno-tautological-compare -Wno-reorder -Wno-unused-result  -O3 -DNDEBUG  -DNDEBUG -std=c++11 -fPIE    -Wno-implicit-const-int-float-conversion -o CMakeFiles/cmTC_ab159.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1plus: warning: unrecognized command line option ‘-Wno-implicit-const-int-float-conversion’
+Linking CXX executable cmTC_ab159
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ab159.dir/link.txt --verbose=1
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wsign-promo -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-shadow -Wno-unused -Wno-sign-compare -Wno-undef -Wno-missing-declarations -Wno-uninitialized -Wno-switch -Wno-parentheses -Wno-array-bounds -Wno-extra -Wno-deprecated-declarations -Wno-misleading-indentation -Wno-deprecated -Wno-suggest-override -Wno-implicit-fallthrough -Wno-tautological-compare -Wno-reorder -Wno-unused-result  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_ab159.dir/src.cxx.o -o cmTC_ab159 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-tautological-undefined-compare’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-tautological-undefined-compare'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_00e0b/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_00e0b.dir/build.make CMakeFiles/cmTC_00e0b.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_00e0b.dir/src.cxx.o
+/usr/bin/c++   -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef  -O3 -DNDEBUG  -DNDEBUG -std=c++11 -fPIE    -Wno-tautological-undefined-compare -o CMakeFiles/cmTC_00e0b.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1plus: warning: unrecognized command line option ‘-Wno-tautological-undefined-compare’
+Linking CXX executable cmTC_00e0b
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_00e0b.dir/link.txt --verbose=1
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_00e0b.dir/src.cxx.o -o cmTC_00e0b 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-shorten-64-to-32’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-shorten-64-to-32'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4ecc1/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_4ecc1.dir/build.make CMakeFiles/cmTC_4ecc1.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4ecc1.dir/src.cxx.o
+/usr/bin/c++   -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable  -O3 -DNDEBUG  -DNDEBUG -std=c++11 -fPIE    -Wno-shorten-64-to-32 -o CMakeFiles/cmTC_4ecc1.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1plus: warning: unrecognized command line option ‘-Wno-shorten-64-to-32’
+Linking CXX executable cmTC_4ecc1
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4ecc1.dir/link.txt --verbose=1
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_4ecc1.dir/src.cxx.o -o cmTC_4ecc1 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-enum-compare-switch’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-enum-compare-switch'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4eadc/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_4eadc.dir/build.make CMakeFiles/cmTC_4eadc.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4eadc.dir/src.cxx.o
+/usr/bin/c++   -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable -Wno-invalid-offsetof  -O3 -DNDEBUG  -DNDEBUG -std=c++11 -fPIE    -Wno-enum-compare-switch -o CMakeFiles/cmTC_4eadc.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1plus: warning: unrecognized command line option ‘-Wno-enum-compare-switch’
+Linking CXX executable cmTC_4eadc
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4eadc.dir/link.txt --verbose=1
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wsuggest-override -Wno-delete-non-virtual-dtor -Wno-comment -Wimplicit-fallthrough=3 -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable -Wno-invalid-offsetof  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_4eadc.dir/src.cxx.o -o cmTC_4eadc 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-stringop-overread’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-stringop-overread'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_29bc0/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_29bc0.dir/build.make CMakeFiles/cmTC_29bc0.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_29bc0.dir/src.cxx.o
+/usr/bin/c++   -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable -Wno-invalid-offsetof -Wno-suggest-override -Wno-implicit-fallthrough -Wno-array-bounds -Wno-stringop-overflow  -O3 -DNDEBUG  -DNDEBUG -std=c++11 -fPIE    -Wno-stringop-overread -o CMakeFiles/cmTC_29bc0.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1plus: warning: unrecognized command line option ‘-Wno-stringop-overread’
+Linking CXX executable cmTC_29bc0
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_29bc0.dir/link.txt --verbose=1
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable -Wno-invalid-offsetof -Wno-suggest-override -Wno-implicit-fallthrough -Wno-array-bounds -Wno-stringop-overflow  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_29bc0.dir/src.cxx.o -o cmTC_29bc0 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
+Build output check failed:
+    Regex: 'unrecognized .*option'
+    Output line: 'cc1plus: warning: unrecognized command line option ‘-Wno-comma’'
+Compilation failed:
+    source file: '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx'
+    check option: ' -Wno-comma'
+===== BUILD LOG =====
+Change Dir: /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_01254/fast && gmake[3]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+/usr/bin/gmake  -f CMakeFiles/cmTC_01254.dir/build.make CMakeFiles/cmTC_01254.dir/build
+gmake[4]: Entering directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_01254.dir/src.cxx.o
+/usr/bin/c++   -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable -Wno-invalid-offsetof -Wno-suggest-override -Wno-implicit-fallthrough -Wno-array-bounds -Wno-stringop-overflow -Wno-extra-semi  -O3 -DNDEBUG  -DNDEBUG -std=c++11 -fPIE    -Wno-comma -o CMakeFiles/cmTC_01254.dir/src.cxx.o -c /afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp/src.cxx:1: warning: ignoring #pragma   [-Wunknown-pragmas]
+ #pragma
+ 
+cc1plus: warning: unrecognized command line option ‘-Wno-comma’
+Linking CXX executable cmTC_01254
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_01254.dir/link.txt --verbose=1
+/usr/bin/c++    -fsigned-char -W -Wall -Wreturn-type -Wnon-virtual-dtor -Waddress -Wsequence-point -Wformat -Wformat-security -Winit-self -Wpointer-arith -Wuninitialized -Wno-delete-non-virtual-dtor -Wno-comment -Wno-strict-overflow -fdiagnostics-show-option -Wno-long-long -pthread -fomit-frame-pointer -ffunction-sections -fdata-sections  -msse -msse2 -msse3 -fvisibility=hidden -fvisibility-inlines-hidden -Wno-deprecated -Wno-missing-declarations -Wno-shadow -Wno-unused-parameter -Wno-unused-local-typedefs -Wno-sign-compare -Wno-sign-promo -Wno-undef -Wno-ignored-qualifiers -Wno-extra -Wno-unused-function -Wno-unused-const-variable -Wno-invalid-offsetof -Wno-suggest-override -Wno-implicit-fallthrough -Wno-array-bounds -Wno-stringop-overflow -Wno-extra-semi  -O3 -DNDEBUG  -DNDEBUG   -Wl,--gc-sections -Wl,--as-needed -Wl,--no-undefined  CMakeFiles/cmTC_01254.dir/src.cxx.o -o cmTC_01254 
+gmake[4]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+gmake[3]: Leaving directory '/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_build/CMakeFiles/CMakeTmp'
+
+
+===== END =====
+
