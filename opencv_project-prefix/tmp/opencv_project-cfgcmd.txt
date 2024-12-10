@@ -1,1 +1,0 @@
-cmd='/usr/bin/cmake;-DCMAKE_BUILD_TYPE=Release;-DCMAKE_INSTALL_PREFIX=/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/external/opencv_install;-DBUILD_LIST=core,imgproc,imgcodecs;-GUnix Makefiles;-S;<SOURCE_DIR><SOURCE_SUBDIR>;-B;<BINARY_DIR>'

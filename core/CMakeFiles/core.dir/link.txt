@@ -1,2 +1,0 @@
-/usr/bin/ar qc libcore.a CMakeFiles/core.dir/src/gaussian_filter.cpp.o CMakeFiles/core.dir/src/gradient.cpp.o
-/usr/bin/ranlib libcore.a
