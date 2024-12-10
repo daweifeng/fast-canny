@@ -1,6 +1,7 @@
 #include "gaussian_filter.h"
 #include "opencv2/core/base.hpp"
 #include "opencv2/core/mat.hpp"
+#include "padding.h"
 #include <exception>
 #include <iostream>
 #include <opencv2/opencv.hpp>
@@ -102,7 +103,7 @@ void BenchmarkGaussianFilterSlow(int width, int height) {
 
   unsigned long long createFilterFLOPSPS = (4 + 6 + 1 + 1 + 1) * 9;
   unsigned long long kernalFLOPSPS =
-      2 * 9 * width * height + createFilterFLOPSPS;
+      (2 * 9 - 1) * width * height + createFilterFLOPSPS;
 
   std::cout << "Benchmarking matrix size: " << width << "x" << height << "\n";
   std::cout << "RDTSC Cycles Taken for GaussianFilterSlow: " << total << "\n";
@@ -181,7 +182,7 @@ void BenchmarkGaussianFilter(int width, int height) {
 
   unsigned long long createFilterFLOPSPS = (4 + 6 + 1 + 1 + 1) * 9;
   unsigned long long kernalFLOPSPS =
-      2 * 9 * width * height + createFilterFLOPSPS;
+      (2 * 9 - 1) * width * height + createFilterFLOPSPS;
 
   std::cout << "Benchmarking matrix size: " << width << "x" << height << "\n";
   std::cout << "RDTSC Cycles Taken for GaussianFilter: " << total << "\n";
