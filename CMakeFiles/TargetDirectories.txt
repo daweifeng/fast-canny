@@ -1,0 +1,11 @@
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/CMakeFiles/opencv_project.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/CMakeFiles/edit_cache.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/CMakeFiles/rebuild_cache.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/core/CMakeFiles/core.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/core/CMakeFiles/edit_cache.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/core/CMakeFiles/rebuild_cache.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/benchmark/CMakeFiles/opencv_benchmark.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/benchmark/CMakeFiles/gaussian_filter_benchmark.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/benchmark/CMakeFiles/gradient_benchmark.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/benchmark/CMakeFiles/edit_cache.dir
+/afs/andrew.cmu.edu/usr14/hahmadi/public/fast-canny/benchmark/CMakeFiles/rebuild_cache.dir
