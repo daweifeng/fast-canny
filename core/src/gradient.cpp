@@ -313,8 +313,8 @@ void GradientSlow(const double *input, double *output, double *theta, int width,
       double magnitude = sqrt(grad_x * grad_x + grad_y * grad_y);
       double angle = atan2(grad_y, grad_x);
 
-      if (angle < 0) {
-        angle += 2 * M_PI; // Adjust angle to be in [0, 2π)
+      if (std::abs(angle - M_PI) < 1e-10) {
+        angle = -M_PI;
       }
 
       output[sobel_index] = magnitude;

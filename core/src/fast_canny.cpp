@@ -34,8 +34,8 @@ std::shared_ptr<cv::Mat> FastCanny(const cv::Mat &input, int lowerThreshold,
   // Apply non-maximum suppression
 
   double *nonMaxSuppressionOutput = new double[input.rows * input.cols];
-  NonMaxSuppressionSlow(gradientOutput, nonMaxSuppressionOutput, thetaOutput, 3,
-                        input.cols, input.rows);
+  NonMaxSuppression(gradientOutput, nonMaxSuppressionOutput, thetaOutput, 3,
+                    input.cols, input.rows);
 
   // Apply hysteresis thresholding
 

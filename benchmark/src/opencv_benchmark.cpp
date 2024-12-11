@@ -11,7 +11,7 @@
 #define GAUSSIAN_KERNEL_SIZE 3
 #define GAUSSIAN_KERNEL_SIGMA 0.5
 #define CANNY_GRADIENT_LOWER_THRESHOLD 100
-#define CANNY_GRADIENT_UPPER_THRESHOLD 200
+#define CANNY_GRADIENT_UPPER_THRESHOLD 255
 
 static inline unsigned long long rdtsc(void) {
   unsigned hi, lo;
