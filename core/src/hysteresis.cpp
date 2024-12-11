@@ -93,25 +93,6 @@ void HysteresisIteration(double *input, double *output, int width, int height,
   const double WEAK_EDGE = lowThreshold;
   const double NON_EDGE = 0.0;
 
-  // Initialize the edge map (thresholding)
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      int idx = y * width + x;
-      double pixelValue = input[idx];
-
-      if (pixelValue >= highThreshold) {
-        // Mark as strong edge
-        input[idx] = STRONG_EDGE;
-      } else if (pixelValue >= lowThreshold) {
-        // Mark as weak edge
-        input[idx] = WEAK_EDGE;
-      } else {
-        // Suppress non-edges
-        input[idx] = NON_EDGE;
-      }
-    }
-  }
-
   // Define padded dimensions
   int paddedWidth = width + 2;
   int paddedHeight = height + 2;
@@ -174,7 +155,7 @@ void HysteresisIteration(double *input, double *output, int width, int height,
         __m256d promoteMaskLo = _mm256_setzero_pd();
         __m256d promoteMaskHi = _mm256_setzero_pd();
 
-        // Check all 9 neighbors
+        // Check all 8 neighbors
         for (int n = 0; n < numNeighbors; n++) {
           int neighborOffset = neighborOffsets[n];
 

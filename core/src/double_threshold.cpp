@@ -5,13 +5,17 @@
 
 void DoubleThresholdSlow(double *input, double *output, int width, int height,
                          double low_thres = 50, double high_thres = 100) {
+  const double STRONG_EDGE = high_thres;
+  const double WEAK_EDGE = low_thres;
+  const double NON_EDGE = 0.0;
+
   for (int i = 0; i < height; ++i) {
     for (int j = 0; j < width; ++j) {
       int idx = i * width + j;
       if (input[idx] >= high_thres) {
-        output[idx] = high_thres;
+        output[idx] = STRONG_EDGE;
       } else if (input[idx] >= low_thres && input[idx] <= high_thres) {
-        output[idx] = low_thres;
+        output[idx] = WEAK_EDGE;
       } else {
         output[idx] = 0;
       }

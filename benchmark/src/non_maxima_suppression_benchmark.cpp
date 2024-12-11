@@ -1,6 +1,5 @@
 #include "non_maxima_suppression.h"
-#include "opencv2/core/base.hpp"
-#include "opencv2/core/mat.hpp"
+#include "opencv2/opencv.hpp"
 #include <exception>
 #include <iostream>
 #include <opencv2/opencv.hpp>
@@ -31,6 +30,7 @@ void BenchmarkNonMaxSupp(int width, int height) {
   double high_thres = 100;
 
   std::uniform_int_distribution<int> unif(lower_bound, upper_bound);
+  std::uniform_real_distribution<double> unifPi(-CV_PI, CV_PI);
   std::default_random_engine re;
 
   double *input = new double[matrixSize]();
@@ -40,7 +40,7 @@ void BenchmarkNonMaxSupp(int width, int height) {
   // Generate a random input matrix
   for (int i = 0; i < matrixSize; i++) {
     input[i] = unif(re);
-    theta[i] = unif(re);
+    theta[i] = unifPi(re);
     output[i] = 0.0;
     expected[i] = 0.0;
   }
@@ -49,14 +49,14 @@ void BenchmarkNonMaxSupp(int width, int height) {
   NonMaxSuppressionSlow(input, expected, theta, 3, width, height);
 
   // Check if the output is correct
-  //   for (int i = 0; i < matrixSize; i++) {
-  //     if (std::abs(output[i] - expected[i]) > 1e-6) {
-  //       std::cout << "output[" << i << "] = " << output[i]
-  //                 << " expected: " << expected[i] << "\n";
-  //       throw std::runtime_error("BenchmarkNonMaxSupp failed: incorrect "
-  //                                "output from NonMaxSupp");
-  //     }
-  //   }
+  for (int i = 0; i < matrixSize; i++) {
+    if (std::abs(output[i] - expected[i]) > 1e-6) {
+      std::cout << "output[" << i << "] = " << output[i]
+                << " expected: " << expected[i] << "\n";
+      throw std::runtime_error("BenchmarkNonMaxSupp failed: incorrect "
+                               "output from NonMaxSupp");
+    }
+  }
 
   for (int i = 0; i != repeat; ++i) {
     st = rdtsc();
