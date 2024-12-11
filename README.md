@@ -24,6 +24,26 @@ This project is using Devcontainers to provide a consistent development environm
 
 ## Run
 
+### Running FastCanny edge detection on an image
+
+To run our implementation of Canny edge detection on an image, you can run the following command:
+
+```bash
+./build/tool/detect_edge fast path/to/image/
+```
+
+This will output the edge detected image in the current directory with the name `edges_fast.png`.
+
+### Running OpenCV Canny edge detection on an image
+
+To run the OpenCV implementation of Canny edge detection on an image, you can run the following command:
+
+```bash
+./build/tool/detect_edge opencv path/to/image/
+```
+
+This will output the edge detected image in the current directory with the name `edges_opencv.png`.
+
 ### Running OpenCV benchmark
 
 To run the OpenCV benchmark, you will need to unzip the images from the COCO dataset.

@@ -2,8 +2,8 @@
  * @brief Add Padding to a matrix with a given value
  */
 #include <cstring>
-#include <iostream>
-void PadMatrix(double *input, double *output, int width, int height,
+
+void PadMatrix(const double *input, double *output, int width, int height,
                int padSize, int padValue) {
   int paddedWidth = width + 2 * padSize;
   int paddedHeight = height + 2 * padSize;

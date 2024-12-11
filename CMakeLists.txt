@@ -8,6 +8,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 option(BUILD_BENCHMARK "Build benchmark" ON)
+option(BUILD_TOOL "Build tool" ON)
 
 # Enable AVX and FMA
 if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
@@ -42,4 +43,8 @@ add_subdirectory(core)
 
 if (BUILD_BENCHMARK)
   add_subdirectory(benchmark)
+endif()
+
+if (BUILD_TOOL)
+  add_subdirectory(tool)
 endif()

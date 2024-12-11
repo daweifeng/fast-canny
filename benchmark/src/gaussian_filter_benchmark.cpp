@@ -193,6 +193,9 @@ void BenchmarkGaussianFilter(int width, int height) {
   std::cout << "FLOPS Per Cycle for cv::GaussianBlur: "
             << repeat * kernalFLOPSPS / (referenceTotal * MAX_FREQ / BASE_FREQ)
             << "\n";
+
+  delete[] input;
+  delete[] output;
 }
 
 void TestGaussianFilterSlowCorrectness(int width, int height) {

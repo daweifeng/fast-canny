@@ -1,10 +1,9 @@
 #ifndef NON_MAX_SUPPRESSION_H
 #define NON_MAX_SUPPRESSION_H
 
-void non_max_suppression_slow(double *input, double *output, double *theta,
-                              int kernalSize, int width, int height,
-                              double sigma);
+void NonMaxSuppressionSlow(double *input, double *output, double *theta,
+                           int kernalSize, int width, int height);
 
-void non_max_suppression(double *input, double *output, double *theta,
-                         int kernalSize, int width, int height, double sigma);
+void NonMaxSuppression(double *input, double *output, double *theta,
+                       int kernalSize, int width, int height);
 #endif // NON_MAX_SUPPRESSION_H

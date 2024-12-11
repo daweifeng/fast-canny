@@ -3,12 +3,12 @@
 #include <cstdio>
 #include <immintrin.h>
 
-void double_threshold_slow(double *input, double *output, int width, int height,
-                           double low_thres = 50, double high_thres = 100) {
+void DoubleThresholdSlow(double *input, double *output, int width, int height,
+                         double low_thres = 50, double high_thres = 100) {
   for (int i = 0; i < height; ++i) {
     for (int j = 0; j < width; ++j) {
       int idx = i * width + j;
-      if (input[idx] >= high_thres) {
+      if (input[idx] > high_thres) {
         output[idx] = high_thres;
       } else if (input[idx] >= low_thres && input[idx] <= high_thres) {
         output[idx] = low_thres;
@@ -19,8 +19,8 @@ void double_threshold_slow(double *input, double *output, int width, int height,
   }
 }
 
-void double_threshold(double *input, double *output, int width, int height,
-                      double low_thres = 50, double high_thres = 100) {
+void DoubleThreshold(double *input, double *output, int width, int height,
+                     double low_thres = 50, double high_thres = 100) {
   int size = width * height;
 
   int i = 0;
