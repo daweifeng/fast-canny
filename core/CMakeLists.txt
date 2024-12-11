@@ -4,6 +4,7 @@ add_library(core STATIC src/gaussian_filter.cpp
         src/gradient.cpp
         src/hysteresis.cpp
         src/padding.cpp
+        src/fast_canny.cpp
         )
 
 add_dependencies(core opencv_project)

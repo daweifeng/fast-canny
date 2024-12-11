@@ -1,6 +1,7 @@
 #pragma once
-#include <immintrin.h>
 
-void Gradient(double *input, double *output, double *theta, int width, int height);
+void Gradient(const double *input, double *output, double *theta, int width,
+              int height);
 
-void GradientSlow(double *input, double *output, double *theta, int width, int height);
+void GradientSlow(const double *input, double *output, double *theta, int width,
+                  int height);

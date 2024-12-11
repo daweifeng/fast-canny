@@ -13,23 +13,23 @@ void HysteresisSlow(double *input, double *output, int width, int height,
   const int dy[8] = {-1, -1, -1, 0, 0, 1, 1, 1};
 
   // Initialize the edge map
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      int idx = y * width + x;
-      double pixelValue = input[idx];
+  // for (int y = 0; y < height; y++) {
+  //   for (int x = 0; x < width; x++) {
+  //     int idx = y * width + x;
+  //     double pixelValue = input[idx];
 
-      if (pixelValue >= highThreshold) {
-        // Mark as strong edge
-        input[idx] = 255.0;
-      } else if (pixelValue >= lowThreshold) {
-        // Mark as weak edge
-        input[idx] = 128.0;
-      } else {
-        // Suppress non-edges
-        input[idx] = 0.0;
-      }
-    }
-  }
+  //     if (pixelValue >= highThreshold) {
+  //       // Mark as strong edge
+  //       input[idx] = 255.0;
+  //     } else if (pixelValue >= lowThreshold) {
+  //       // Mark as weak edge
+  //       input[idx] = 128.0;
+  //     } else {
+  //       // Suppress non-edges
+  //       input[idx] = 0.0;
+  //     }
+  //   }
+  // }
 
   int paddedWidth = width + 2;
   int paddedHeight = height + 2;
@@ -46,7 +46,7 @@ void HysteresisSlow(double *input, double *output, int width, int height,
       for (int x = 1; x < paddedWidth; x++) {
         int idx = y * paddedWidth + x;
 
-        if (paddedInput[idx] == 128.0) {
+        if (paddedInput[idx] == lowThreshold) {
           // Check 8-connected neighbors
           bool hasStrongNeighbor = false;
           for (int i = 0; i < 8; i++) {
@@ -55,14 +55,14 @@ void HysteresisSlow(double *input, double *output, int width, int height,
 
             int nidx = ny * paddedWidth + nx;
 
-            if (paddedInput[nidx] == 255.0) {
+            if (paddedInput[nidx] == highThreshold) {
               hasStrongNeighbor = true;
               break;
             }
           }
 
           if (hasStrongNeighbor) {
-            paddedInput[idx] = 255.0;
+            paddedInput[idx] = highThreshold;
             changed = true;
           }
         }
@@ -71,7 +71,7 @@ void HysteresisSlow(double *input, double *output, int width, int height,
   } while (changed);
 
   for (int i = 0; i < paddedWidth * paddedHeight; i++) {
-    if (paddedInput[i] != 255.0) {
+    if (paddedInput[i] != highThreshold) {
       paddedInput[i] = 0.0;
     }
   }
@@ -89,8 +89,8 @@ void HysteresisSlow(double *input, double *output, int width, int height,
 void HysteresisIteration(double *input, double *output, int width, int height,
                          double lowThreshold, double highThreshold) {
   // Threshold values
-  const double STRONG_EDGE = 255.0;
-  const double WEAK_EDGE = 128.0;
+  const double STRONG_EDGE = highThreshold;
+  const double WEAK_EDGE = lowThreshold;
   const double NON_EDGE = 0.0;
 
   // Initialize the edge map (thresholding)
@@ -128,9 +128,9 @@ void HysteresisIteration(double *input, double *output, int width, int height,
   PadMatrix(input, paddedInput, width, height, 1, 0);
 
   // Define neighbor offsets based on paddedWidth
-  const int numNeighbors = 9;
+  const int numNeighbors = 8;
   int neighborOffsets[numNeighbors] = {
-      -paddedWidth - 1, -paddedWidth, -paddedWidth + 1, -1, 0, 1,
+      -paddedWidth - 1, -paddedWidth, -paddedWidth + 1, -1, 1,
       paddedWidth - 1,  paddedWidth,  paddedWidth + 1};
 
   // SIMD constants

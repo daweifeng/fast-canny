@@ -45,8 +45,8 @@ void BenchmarkNonMaxSupp(int width, int height) {
     expected[i] = 0.0;
   }
 
-  non_max_suppression(input, output, theta, 3, width, height, 1.0);
-  non_max_suppression_slow(input, expected, theta, 3, width, height, 1.0);
+  NonMaxSuppression(input, output, theta, 3, width, height);
+  NonMaxSuppressionSlow(input, expected, theta, 3, width, height);
 
   // Check if the output is correct
   //   for (int i = 0; i < matrixSize; i++) {
@@ -60,7 +60,7 @@ void BenchmarkNonMaxSupp(int width, int height) {
 
   for (int i = 0; i != repeat; ++i) {
     st = rdtsc();
-    non_max_suppression(input, output, theta, 3, width, height, 1.0);
+    NonMaxSuppression(input, output, theta, 3, width, height);
     et = rdtsc();
 
     total += (et - st);
@@ -68,7 +68,7 @@ void BenchmarkNonMaxSupp(int width, int height) {
 
   for (int i = 0; i != repeat; ++i) {
     st = rdtsc();
-    non_max_suppression_slow(input, expected, theta, 3, width, height, 1.0);
+    NonMaxSuppressionSlow(input, expected, theta, 3, width, height);
     et = rdtsc();
 
     referenceTotal += (et - st);

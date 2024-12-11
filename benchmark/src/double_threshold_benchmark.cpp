@@ -42,8 +42,8 @@ void BenchmarkDoubleThreshold(int width, int height) {
     expected[i] = 0.0;
   }
 
-  double_threshold(input, output, width, height, low_thres, high_thres);
-  double_threshold_slow(input, expected, width, height, low_thres, high_thres);
+  DoubleThreshold(input, output, width, height, low_thres, high_thres);
+  DoubleThresholdSlow(input, expected, width, height, low_thres, high_thres);
 
   // Check if the output is correct
   for (int i = 0; i < matrixSize; i++) {
@@ -57,7 +57,7 @@ void BenchmarkDoubleThreshold(int width, int height) {
 
   for (int i = 0; i != repeat; ++i) {
     st = rdtsc();
-    double_threshold(input, output, width, height, low_thres, high_thres);
+    DoubleThreshold(input, output, width, height, low_thres, high_thres);
     ;
     et = rdtsc();
 
@@ -66,8 +66,7 @@ void BenchmarkDoubleThreshold(int width, int height) {
 
   for (int i = 0; i != repeat; ++i) {
     st = rdtsc();
-    double_threshold_slow(input, expected, width, height, low_thres,
-                          high_thres);
+    DoubleThresholdSlow(input, expected, width, height, low_thres, high_thres);
     et = rdtsc();
 
     referenceTotal += (et - st);

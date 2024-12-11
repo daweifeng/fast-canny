@@ -8,8 +8,8 @@
 /**
  * @brief Apply a Gaussian filter to an image using SIMD
  */
-void GaussianFilter(double *input, double *output, int kernalSize, int width,
-                    int height, double sigma) {
+void GaussianFilter(const double *input, double *output, int kernalSize,
+                    int width, int height, double sigma) {
 
   // Assuming width and height are power of 2
   assert(width > 0 && (width & (width - 1)) == 0);
@@ -155,7 +155,7 @@ void GaussianFilter(double *input, double *output, int kernalSize, int width,
  * @brief Apply a Gaussian filter to an image. This function is a slow
  * implementation of the Gaussian filter. It is used to compare the performance
  */
-void GaussianFilterSlow(double *input, double *output, int kernalSize,
+void GaussianFilterSlow(const double *input, double *output, int kernalSize,
                         int width, int height, double sigma) {
 
   int halfSize = kernalSize / 2;
