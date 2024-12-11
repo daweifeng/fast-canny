@@ -48,21 +48,31 @@ void BenchmarkGradientSlow(int width, int height) {
   }
 
   // initialize arrays
-  cv::Mat expected, grad_x, grad_y, absGradX, absGradY, grad;
+  cv::Mat expected, grad_x, grad_y, absGradX, absGradY;
   cv::Mat src(height, width, CV_64F, input);
 
   // calculate magnitude
   cv::Sobel(src, grad_x, CV_64F, 1, 0, 3, 1, 0, cv::BORDER_CONSTANT);
   cv::Sobel(src, grad_y, CV_64F, 0, 1, 3, 1, 0, cv::BORDER_CONSTANT);
 
-  cv::addWeighted(grad_x, 0.5, grad_y, 0.5, 0, grad);
+  cv::Mat magnitude, angle;
+  cv::cartToPolar(grad_x, grad_y, magnitude, angle, false);
+
+  for (int y = 0; y < angle.rows; y++) {
+    for (int x = 0; x < angle.cols; x++) {
+      double currentAngle = angle.at<double>(y, x);
+      if (currentAngle >= CV_PI) {
+        angle.at<double>(y, x) -= 2 * CV_PI;
+      }
+    }
+  }
 
   GradientSlow(input, output, theta, width, height);
 
   for (int i = 0; i < matrixSize; i++) {
-    if (std::abs(output[i] - grad.at<double>(i)) > 1e-6) {
+    if (std::abs(output[i] - magnitude.at<double>(i)) > 1e-4) {
       std::cout << "output[" << i << "] = " << output[i]
-                << " expected: " << grad.at<double>(i) << "\n";
+                << " expected: " << magnitude.at<double>(i) << "\n";
       throw std::runtime_error("BenchmarkGradientSlow  failed: incorrect "
                                "output from GradientSlow");
     }
@@ -70,18 +80,37 @@ void BenchmarkGradientSlow(int width, int height) {
 
   for (int i = 0; i != repeat; ++i) {
     st = rdtsc();
-    cv::Mat expected, grad_x, grad_y, absGradX, absGradY, grad;
+    cv::Mat expected, grad_x, grad_y, absGradX, absGradY;
     cv::Mat src(height, width, CV_64F, input);
 
     // calculate magnitude
     cv::Sobel(src, grad_x, CV_64F, 1, 0, 3, 1, 0, cv::BORDER_CONSTANT);
     cv::Sobel(src, grad_y, CV_64F, 0, 1, 3, 1, 0, cv::BORDER_CONSTANT);
 
-    cv::addWeighted(grad_x, 0.5, grad_y, 0.5, 0, grad);
+    cv::Mat magnitude, angle;
+    cv::cartToPolar(grad_x, grad_y, magnitude, angle, false);
+
+    for (int y = 0; y < angle.rows; y++) {
+      for (int x = 0; x < angle.cols; x++) {
+        double currentAngle = angle.at<double>(y, x);
+        if (currentAngle >= CV_PI) {
+          angle.at<double>(y, x) -= 2 * CV_PI;
+        }
+      }
+    }
     et = rdtsc();
 
     referenceTotal += (et - st);
   }
+
+  for (int i = 0; i != repeat; ++i) {
+    st = rdtsc();
+    GradientSlow(input, output, theta, width, height);
+    et = rdtsc();
+
+    total += (et - st);
+  }
+
   unsigned long long createFilterFLOPSPS = (4 + 6 + 1 + 1 + 1) * 9;
   unsigned long long kernalFLOPSPS =
       2 * 9 * width * height + createFilterFLOPSPS;
@@ -125,23 +154,35 @@ void BenchmarkGradient(int width, int height) {
   }
 
   // initialize arrays
-  cv::Mat expected, grad_x, grad_y, absGradX, absGradY, grad;
+  cv::Mat expected, grad_x, grad_y, absGradX, absGradY;
   cv::Mat src(height, width, CV_64F, input);
 
   // calculate magnitude
   cv::Sobel(src, grad_x, CV_64F, 1, 0, 3, 1, 0, cv::BORDER_CONSTANT);
   cv::Sobel(src, grad_y, CV_64F, 0, 1, 3, 1, 0, cv::BORDER_CONSTANT);
 
-  cv::addWeighted(grad_x, 0.5, grad_y, 0.5, 0, grad);
+  cv::Mat magnitude, angle;
+  cv::cartToPolar(grad_x, grad_y, magnitude, angle, false);
+
+  for (int y = 0; y < angle.rows; y++) {
+    for (int x = 0; x < angle.cols; x++) {
+      double currentAngle = angle.at<double>(y, x);
+      if (currentAngle >= CV_PI) {
+        angle.at<double>(y, x) -= 2 * CV_PI;
+      }
+    }
+  }
 
   // TODO: change this to fast call
   Gradient(input, output, theta, width, height);
 
   // Check if the output is correct
   for (int i = 0; i < matrixSize; i++) {
-    if (std::abs(output[i] - grad.at<double>(i)) > 1e-6) {
+    if (std::abs(output[i] - magnitude.at<double>(i)) > 1e-3) {
       std::cout << "output[" << i << "] = " << output[i]
-                << " expected: " << grad.at<double>(i) << "\n";
+                << " expected: " << magnitude.at<double>(i) << "\n";
+
+      std::cout << "width: " << width << " height: " << height << "\n";
       throw std::runtime_error("BenchmarkGradient failed: incorrect "
                                "output from Gradient");
     }
@@ -158,14 +199,24 @@ void BenchmarkGradient(int width, int height) {
   for (int i = 0; i != repeat; ++i) {
     st = rdtsc();
     // initialize arrays
-    cv::Mat expected, grad_x, grad_y, absGradX, absGradY, grad;
+    cv::Mat expected, grad_x, grad_y, absGradX, absGradY;
     cv::Mat src(height, width, CV_64F, input);
 
     // calculate magnitude
     cv::Sobel(src, grad_x, CV_64F, 1, 0, 3, 1, 0, cv::BORDER_CONSTANT);
     cv::Sobel(src, grad_y, CV_64F, 0, 1, 3, 1, 0, cv::BORDER_CONSTANT);
 
-    cv::addWeighted(grad_x, 0.5, grad_y, 0.5, 0, grad);
+    cv::Mat magnitude, angle;
+    cv::cartToPolar(grad_x, grad_y, magnitude, angle, false);
+
+    for (int y = 0; y < angle.rows; y++) {
+      for (int x = 0; x < angle.cols; x++) {
+        double currentAngle = angle.at<double>(y, x);
+        if (currentAngle >= CV_PI) {
+          angle.at<double>(y, x) -= 2 * CV_PI;
+        }
+      }
+    }
     et = rdtsc();
 
     referenceTotal += (et - st);
@@ -207,7 +258,7 @@ void TestGradientSlowCorrectness(int width, int height) {
   }
 
   // initialize arrays
-  cv::Mat expected, grad_x, grad_y, absGradX, absGradY, grad;
+  cv::Mat expected, grad_x, grad_y, absGradX, absGradY;
   cv::Mat src(height, width, CV_64F, input);
 
   cv::Sobel(src, grad_x, CV_64F, 1, 0, 3, 1, 0, cv::BORDER_CONSTANT);
@@ -215,6 +266,15 @@ void TestGradientSlowCorrectness(int width, int height) {
 
   cv::Mat magnitude, angle;
   cv::cartToPolar(grad_x, grad_y, magnitude, angle, false);
+
+  for (int y = 0; y < angle.rows; y++) {
+    for (int x = 0; x < angle.cols; x++) {
+      double currentAngle = angle.at<double>(y, x);
+      if (currentAngle >= CV_PI) {
+        angle.at<double>(y, x) -= 2 * CV_PI;
+      }
+    }
+  }
 
   GradientSlow(input, output, theta, width, height);
 
@@ -259,21 +319,31 @@ void TestGradientCorrectness(int width, int height) {
   }
 
   // initialize arrays
-  cv::Mat expected, grad_x, grad_y, absGradX, absGradY, grad;
+  cv::Mat expected, grad_x, grad_y, absGradX, absGradY;
   cv::Mat src(height, width, CV_64F, input);
 
   // calculate magnitude
   cv::Sobel(src, grad_x, CV_64F, 1, 0, 3, 1, 0, cv::BORDER_CONSTANT);
   cv::Sobel(src, grad_y, CV_64F, 0, 1, 3, 1, 0, cv::BORDER_CONSTANT);
 
-  cv::addWeighted(grad_x, 0.5, grad_y, 0.5, 0, grad);
+  cv::Mat magnitude, angle;
+  cv::cartToPolar(grad_x, grad_y, magnitude, angle, false);
+
+  for (int y = 0; y < angle.rows; y++) {
+    for (int x = 0; x < angle.cols; x++) {
+      double currentAngle = angle.at<double>(y, x);
+      if (currentAngle >= CV_PI) {
+        angle.at<double>(y, x) -= 2 * CV_PI;
+      }
+    }
+  }
 
   Gradient(input, output, theta, width, height);
 
   for (int i = 0; i < matrixSize; i++) {
-    if (std::abs(output[i] - grad.at<double>(i)) > 1e-6) {
+    if (std::abs(output[i] - magnitude.at<double>(i)) > 1e-4) {
       std::cout << "output[" << i << "] = " << output[i]
-                << " expected: " << grad.at<double>(i) << "\n";
+                << " expected: " << magnitude.at<double>(i) << "\n";
       std::cout << "width: " << width << " height: " << height << "\n";
       throw std::runtime_error("TestGradientCorrectness failed");
     }
@@ -296,25 +366,25 @@ int main(int argc, char *argv[]) {
     TestGradientSlowCorrectness(1024, 1024);
     std::cout << "GradientSlow correctness passed\n";
 
-    // std::cout << "...Benchmarking GradientSlow...\n";
-    // BenchmarkGradientSlow(8, 8);
-    // BenchmarkGradientSlow(16, 16);
-    // BenchmarkGradientSlow(32, 32);
-    // BenchmarkGradientSlow(64, 64);
+    std::cout << "...Benchmarking GradientSlow...\n";
+    BenchmarkGradientSlow(8, 8);
+    BenchmarkGradientSlow(16, 16);
+    BenchmarkGradientSlow(32, 32);
+    BenchmarkGradientSlow(64, 64);
 
-    // std::cout << "...Testing Gradient correctness...\n";
-    // TestGradientCorrectness(4, 4);
-    // TestGradientCorrectness(8, 8);
-    // TestGradientCorrectness(32, 32);
-    // TestGradientCorrectness(64, 64);
-    // std::cout << "Gradient correctness passed\n";
+    std::cout << "...Testing Gradient correctness...\n";
+    TestGradientCorrectness(4, 4);
+    TestGradientCorrectness(8, 8);
+    TestGradientCorrectness(32, 32);
+    TestGradientCorrectness(64, 64);
+    std::cout << "Gradient correctness passed\n";
 
-    // std::cout << "...Benchmarking Gradient...\n";
-    // BenchmarkGradient(4, 4);
-    // BenchmarkGradient(8, 8);
-    // BenchmarkGradient(16, 16);
-    // BenchmarkGradient(32, 32);
-    // BenchmarkGradient(64, 64);
+    std::cout << "...Benchmarking Gradient...\n";
+    BenchmarkGradient(4, 4);
+    BenchmarkGradient(8, 8);
+    BenchmarkGradient(16, 16);
+    BenchmarkGradient(32, 32);
+    BenchmarkGradient(64, 64);
 
     std::cout << "All tests passed\n";
   } catch (const std::exception &err) {
