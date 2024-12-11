@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstring>
 #include <immintrin.h>
+#include <omp.h>
 
 /**
  * @brief Apply a Gaussian filter to an image using SIMD
@@ -34,10 +35,11 @@ void GaussianFilter(const double *input, double *output, int kernalSize,
 
   __m256d kernelValue = _mm256_setzero_pd();
 
-  // TODO: Consider cache aware optimization
-  // There are 2 FMA units in ECE06 and the latency is 10
-  // We need to have at least 10 FMA to max the performance
-  // SO we are processing 10 * 4 elements each time
+// TODO: Consider cache aware optimization
+// There are 2 FMA units in ECE06 and the latency is 10
+// We need to have at least 10 FMA to max the performance
+// SO we are processing 10 * 4 elements each time
+#pragma omp parallel for schedule(static)
   for (int idx = 0; idx <= width * height - 40; idx += 40) {
     sum1 = _mm256_setzero_pd();
     sum2 = _mm256_setzero_pd();
@@ -128,6 +130,7 @@ void GaussianFilter(const double *input, double *output, int kernalSize,
   }
 
   // process the rest of the matrix
+#pragma omp parallel for schedule(static)
   for (int idx = (width * height / 40) * 40; idx < width * height; idx += 4) {
     sum1 = _mm256_setzero_pd();
 
