@@ -4,6 +4,7 @@
 #include <cstring>
 #include <immintrin.h>
 #include <iostream>
+#include <omp.h>
 #include <queue>
 
 void HysteresisSlow(double *input, double *output, int width, int height,
@@ -126,6 +127,7 @@ void HysteresisIteration(double *input, double *output, int width, int height,
     count++;
     changed = false;
 
+#pragma omp parallel for schedule(static)
     for (int y = 1; y < paddedHeight - 1; y++) {
       int x;
       for (x = 1; x <= paddedWidth - 1 - simdWidth; x += simdWidth) {
@@ -225,7 +227,8 @@ void HysteresisIteration(double *input, double *output, int width, int height,
     }
   } while (changed);
 
-  // Suppress remaining weak edges
+// Suppress remaining weak edges
+#pragma omp parallel for schedule(static)
   for (int i = 0; i < paddedWidth * paddedHeight; i++) {
     if (paddedInput[i] != STRONG_EDGE) {
       paddedInput[i] = NON_EDGE;
@@ -233,6 +236,7 @@ void HysteresisIteration(double *input, double *output, int width, int height,
   }
 
   // Copy data back to output array (excluding padding)
+#pragma omp parallel for schedule(static)
   for (int y = 1; y < paddedHeight - 1; y++) {
     int paddedIdx = y * paddedWidth + 1;
     int outputIdx = (y - 1) * width;
