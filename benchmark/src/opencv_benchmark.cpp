@@ -30,7 +30,7 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long et;
   unsigned long long sum = 0;
   unsigned long long runs = 0;
-  int repeat = 1000;
+  int repeat = 10;
   std::vector<cv::Mat> images;
   images.reserve(NUM_IMAGES_PER_SIZE);
 
