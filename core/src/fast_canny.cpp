@@ -20,16 +20,16 @@ std::shared_ptr<cv::Mat> FastCanny(const cv::Mat &input, int lowerThreshold,
   }
 
   double *blurredImage = new double[input.rows * input.cols];
-  GaussianFilter(input.ptr<double>(), blurredImage, kernelSize, input.cols,
-                 input.rows, sigma);
+  // GaussianFilter(input.ptr<double>(), blurredImage, kernelSize, input.cols,
+  //                input.rows, sigma);
 
   // Apply Sobel filter
 
   double *gradientOutput = new double[input.rows * input.cols];
   double *thetaOutput = new double[input.rows * input.cols];
 
-  GradientSlow(blurredImage, gradientOutput, thetaOutput, input.cols,
-               input.rows);
+  // GradientSlow(blurredImage, gradientOutput, thetaOutput, input.cols,
+  //              input.rows);
 
   // Apply non-maximum suppression
 
@@ -40,17 +40,17 @@ std::shared_ptr<cv::Mat> FastCanny(const cv::Mat &input, int lowerThreshold,
   // Apply hysteresis thresholding
 
   double *doubleThresholdOutput = new double[input.rows * input.cols];
-  DoubleThreshold(nonMaxSuppressionOutput, doubleThresholdOutput, input.cols,
-                  input.rows, lowerThreshold, upperThreshold);
+  // DoubleThreshold(nonMaxSuppressionOutput, doubleThresholdOutput, input.cols,
+  //                 input.rows, lowerThreshold, upperThreshold);
 
   double *hysteresisOutput = new double[input.rows * input.cols];
-  Hysteresis(doubleThresholdOutput, hysteresisOutput, input.cols, input.rows,
-             lowerThreshold, upperThreshold);
+  // Hysteresis(doubleThresholdOutput, hysteresisOutput, input.cols, input.rows,
+  //            lowerThreshold, upperThreshold);
 
   // Copy the output to the output image
 
   std::shared_ptr<cv::Mat> output = std::make_shared<cv::Mat>(
-      input.rows, input.cols, CV_64F, hysteresisOutput);
+      input.rows, input.cols, CV_64F, nonMaxSuppressionOutput);
 
   delete[] blurredImage;
   delete[] gradientOutput;

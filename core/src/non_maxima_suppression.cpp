@@ -1,6 +1,7 @@
 #include <cmath>
 #include <immintrin.h>
 #include <iostream>
+#include <omp.h>
 
 void NonMaxSuppressionSlow(double *input, double *output, double *theta,
                            int kernalSize, int width, int height) {
@@ -62,7 +63,7 @@ void NonMaxSuppression(double *input, double *output, double *theta,
   const __m256d vec_112_5 = _mm256_set1_pd(112.5);
   const __m256d vec_157_5 = _mm256_set1_pd(157.5);
   const __m256d vec_zero = _mm256_set1_pd(0.0);
-
+  
   for (int i = padd; i < height - padd; i++) {
     int j = padd;
     for (; j <= width - padd - 4; j += 4) { // Process 4 pixels at a time
