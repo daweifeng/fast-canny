@@ -30,8 +30,9 @@ void DoubleThreshold(double *input, double *output, int width, int height,
   __m256d low_vals = _mm256_set1_pd(low_thres);
   __m256d high_vals = _mm256_set1_pd(high_thres);
 
-  int i = 0;
-  for (; i <= size - 12; i += 12) {
+// Parallelize the main loop
+#pragma omp parallel for
+  for (int i = 0; i <= size - 12; i += 12) {
     __m256d input_vals_0 = _mm256_loadu_pd(&input[i]);
     __m256d input_vals_1 = _mm256_loadu_pd(&input[i + 4]);
     __m256d input_vals_2 = _mm256_loadu_pd(&input[i + 8]);
@@ -62,8 +63,9 @@ void DoubleThreshold(double *input, double *output, int width, int height,
     _mm256_storeu_pd(&output[i + 8], result_2);
   }
 
-  // Handle remaining elements
-  for (; i < size; ++i) {
+// Handle remaining elements outside the parallel region
+#pragma omp parallel for
+  for (int i = (size / 12) * 12; i < size; ++i) {
     if (input[i] >= high_thres) {
       output[i] = high_thres;
     } else if (input[i] >= low_thres) {

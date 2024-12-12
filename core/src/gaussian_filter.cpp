@@ -216,6 +216,7 @@ void GenerateGaussianKernel(double *kernel, int width, int height,
     }
   }
 
+#pragma omp parallel for schedule(static)
   for (int i = 0; i < width * height; i++) {
     kernel[i] /= sum;
   }
