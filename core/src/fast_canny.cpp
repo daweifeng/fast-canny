@@ -28,7 +28,7 @@ std::shared_ptr<cv::Mat> FastCanny(const cv::Mat &input, int lowerThreshold,
   double *gradientOutput = new double[input.rows * input.cols];
   double *thetaOutput = new double[input.rows * input.cols];
 
-  GradientSlow(blurredImage, gradientOutput, thetaOutput, input.cols,
+  Gradient(blurredImage, gradientOutput, thetaOutput, input.cols,
                input.rows);
 
   // Apply non-maximum suppression

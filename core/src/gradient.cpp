@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cstring>
 #include <immintrin.h>
+#include <omp.h>
 
 #define GAUSSIAN_KERNEL_SIZE 3
 
@@ -58,7 +59,7 @@ __m256d simd_atan2(__m256d y, __m256d x) {
 /**
  * @brief Apply a Sobel filter to an image using SIMD
  */
-void Gradient(const double *input, double *output, double *theta, int width,
+void GradientSlow(const double *input, double *output, double *theta, int width,
               int height) {
   // Assuming width and height are power of 2
   assert(width > 0 && (width & (width - 1)) == 0);
@@ -81,8 +82,12 @@ void Gradient(const double *input, double *output, double *theta, int width,
   __m256d pixels1, pixels2, pixels3, pixels4, pixels5;
   __m256d grad1, grad2, grad3, grad4, grad5, grad6, grad7, grad8, grad9, grad10;
   __m256d dir1, dir2, dir3, dir4, dir5, dir6, dir7, dir8, dir9, dir10;
+  const __m256d pi = _mm256_set1_pd(M_PI);
+  const __m256d neg_pi = _mm256_set1_pd(-M_PI);
+  const __m256d epsilon = _mm256_set1_pd(1e-10);
 
-  // Loop over the image
+  // Loop over the image using parallel computing
+  #pragma omp parallel for schedule(static)
   for (int idx = 0; idx <= width * height - 40; idx += 40) {
     // Process 4 elements at a time (AVX2 for double)
     sum1_x = _mm256_setzero_pd();
@@ -184,37 +189,37 @@ void Gradient(const double *input, double *output, double *theta, int width,
     }
 
     // Compute magnitude and direction (grad_x/2 + grad_y/2)
-    grad1 = _mm256_add_pd(_mm256_mul_pd(sum1_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum1_y, _mm256_set1_pd(0.5)));
-    grad2 = _mm256_add_pd(_mm256_mul_pd(sum2_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum2_y, _mm256_set1_pd(0.5)));
-    grad3 = _mm256_add_pd(_mm256_mul_pd(sum3_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum3_y, _mm256_set1_pd(0.5)));
-    grad4 = _mm256_add_pd(_mm256_mul_pd(sum4_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum4_y, _mm256_set1_pd(0.5)));
-    grad5 = _mm256_add_pd(_mm256_mul_pd(sum5_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum5_y, _mm256_set1_pd(0.5)));
-    grad6 = _mm256_add_pd(_mm256_mul_pd(sum6_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum6_y, _mm256_set1_pd(0.5)));
-    grad7 = _mm256_add_pd(_mm256_mul_pd(sum7_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum7_y, _mm256_set1_pd(0.5)));
-    grad8 = _mm256_add_pd(_mm256_mul_pd(sum8_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum8_y, _mm256_set1_pd(0.5)));
-    grad9 = _mm256_add_pd(_mm256_mul_pd(sum9_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum9_y, _mm256_set1_pd(0.5)));
-    grad10 = _mm256_add_pd(_mm256_mul_pd(sum10_x, _mm256_set1_pd(0.5)),
-                           _mm256_mul_pd(sum10_y, _mm256_set1_pd(0.5)));
+    grad1 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum1_x, sum1_x),
+                          _mm256_mul_pd(sum1_y, sum1_y)));
+    grad2 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum2_x, sum2_x),
+                          _mm256_mul_pd(sum2_y, sum2_y)));
+    grad3 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum3_x, sum3_x),
+                          _mm256_mul_pd(sum3_y, sum3_y)));
+    grad4 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum4_x, sum4_x),
+                          _mm256_mul_pd(sum4_y, sum4_y)));
+    grad5 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum5_x, sum5_x),
+                          _mm256_mul_pd(sum5_y, sum5_y)));
+    grad6 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum6_x, sum6_x),
+                          _mm256_mul_pd(sum6_y, sum6_y)));
+    grad7 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum7_x, sum7_x),
+                          _mm256_mul_pd(sum7_y, sum7_y)));
+    grad8 =  _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum8_x, sum8_x),
+                          _mm256_mul_pd(sum8_y, sum8_y)));
+    grad9 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum9_x, sum9_x),
+                          _mm256_mul_pd(sum9_y, sum9_y)));
+    grad10 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum10_x, sum10_x),
+                           _mm256_mul_pd(sum10_y, sum10_y)));
 
-    dir1 = simd_atan2(sum1_x, sum1_y);
-    dir2 = simd_atan2(sum2_x, sum2_y);
-    dir3 = simd_atan2(sum3_x, sum3_y);
-    dir4 = simd_atan2(sum4_x, sum4_y);
-    dir5 = simd_atan2(sum5_x, sum5_y);
-    dir6 = simd_atan2(sum6_x, sum6_y);
-    dir7 = simd_atan2(sum7_x, sum7_y);
-    dir8 = simd_atan2(sum8_x, sum8_y);
-    dir9 = simd_atan2(sum9_x, sum9_y);
-    dir10 = simd_atan2(sum10_x, sum10_y);
+    dir1 = _mm256_blendv_pd(simd_atan2(sum1_x, sum1_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum1_x, sum1_y), pi)), epsilon, _CMP_LT_OS));
+    dir2 = _mm256_blendv_pd(simd_atan2(sum2_x, sum2_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum2_x, sum2_y), pi)), epsilon, _CMP_LT_OS));
+    dir3 = _mm256_blendv_pd(simd_atan2(sum3_x, sum3_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum3_x, sum3_y), pi)), epsilon, _CMP_LT_OS));
+    dir4 = _mm256_blendv_pd(simd_atan2(sum4_x, sum4_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum4_x, sum4_y), pi)), epsilon, _CMP_LT_OS));
+    dir5 = _mm256_blendv_pd(simd_atan2(sum5_x, sum5_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum5_x, sum5_y), pi)), epsilon, _CMP_LT_OS));
+    dir6 = _mm256_blendv_pd(simd_atan2(sum6_x, sum6_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum6_x, sum6_y), pi)), epsilon, _CMP_LT_OS));
+    dir7 = _mm256_blendv_pd(simd_atan2(sum7_x, sum7_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum7_x, sum7_y), pi)), epsilon, _CMP_LT_OS));
+    dir8 = _mm256_blendv_pd(simd_atan2(sum8_x, sum8_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum8_x, sum8_y), pi)), epsilon, _CMP_LT_OS));
+    dir9 = _mm256_blendv_pd(simd_atan2(sum9_x, sum9_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum9_x, sum9_y), pi)), epsilon, _CMP_LT_OS));
+    dir10 = _mm256_blendv_pd(simd_atan2(sum10_x, sum10_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum10_x, sum10_y), pi)), epsilon, _CMP_LT_OS));
 
     // Store results (for grad_magnitude and theta)
     _mm256_storeu_pd(&output[((idx) / width) * width + ((idx) % width)], grad1);
@@ -256,6 +261,7 @@ void Gradient(const double *input, double *output, double *theta, int width,
     _mm256_storeu_pd(
         &theta[((idx + 36) / width) * width + ((idx + 36) % width)], dir10);
   }
+  #pragma omp parallel for schedule(static)
   for (int idx = (width * height / 40) * 40; idx < width * height; idx += 4) {
     sum1_x = _mm256_setzero_pd();
     sum1_y = _mm256_setzero_pd();
@@ -273,9 +279,10 @@ void Gradient(const double *input, double *output, double *theta, int width,
         sum1_y = _mm256_fmadd_pd(pixels1, kernel_y_value, sum1_y);
       }
     }
-    grad1 = _mm256_add_pd(_mm256_mul_pd(sum1_x, _mm256_set1_pd(0.5)),
-                          _mm256_mul_pd(sum1_y, _mm256_set1_pd(0.5)));
-    dir1 = simd_atan2(sum1_x, sum1_y);
+    grad1 = _mm256_sqrt_pd(_mm256_add_pd(_mm256_mul_pd(sum1_x, sum1_x),
+                          _mm256_mul_pd(sum1_y, sum1_y)));
+    dir1 = _mm256_blendv_pd(simd_atan2(sum1_x, sum1_y), neg_pi, _mm256_cmp_pd(_mm256_andnot_pd(_mm256_set1_pd(-0.0), _mm256_sub_pd(simd_atan2(sum1_x, sum1_y), pi)), epsilon, _CMP_LT_OS));
+
 
     _mm256_storeu_pd(&output[((idx) / width) * width + ((idx) % width)], grad1);
     _mm256_storeu_pd(&theta[((idx) / width) * width + ((idx) % width)], dir1);
@@ -287,7 +294,7 @@ void Gradient(const double *input, double *output, double *theta, int width,
  * @brief Apply a Sobel filter to an image. This function is a slow
  * implementation of the Sobel filter. It is used to compare the performance
  */
-void GradientSlow(const double *input, double *output, double *theta, int width,
+void Gradient(const double *input, double *output, double *theta, int width,
                   int height) {
   int padd = 1;
 
