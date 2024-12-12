@@ -24,6 +24,8 @@ This project is using Devcontainers to provide a consistent development environm
 
 ## Run
 
+The project was run and tested on the ECE06 machine. The following instructions are for running the project on the ECE06 machines.
+
 ### Running FastCanny edge detection on an image
 
 To run our implementation of Canny edge detection on an image, you can run the following command:
