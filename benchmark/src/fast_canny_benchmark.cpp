@@ -12,7 +12,7 @@
 #define GAUSSIAN_KERNEL_SIZE 3
 #define GAUSSIAN_KERNEL_SIGMA 0.5
 #define CANNY_GRADIENT_LOWER_THRESHOLD 100
-#define CANNY_GRADIENT_UPPER_THRESHOLD 200
+#define CANNY_GRADIENT_UPPER_THRESHOLD 255
 
 static inline unsigned long long rdtsc(void) {
   unsigned hi, lo;
@@ -29,49 +29,103 @@ struct CocoImageMeta {
 void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long st;
   unsigned long long et;
-  unsigned long long cvCannyTime = 0;
-  unsigned long long fastCannyTime = 0;
+  unsigned long long sum = 0;
   unsigned long long runs = 0;
-  int repeat = 1000;
+  int repeat = 10;
   std::vector<cv::Mat> images;
   images.reserve(NUM_IMAGES_PER_SIZE);
 
   for (const auto &p : std::filesystem::directory_iterator(imageMeta.path)) {
     cv::Mat image = cv::imread(p.path(), cv::IMREAD_GRAYSCALE);
+    cv::Mat imageDouble;
+    image.convertTo(imageDouble, CV_64F);
 
     if (image.empty()) {
       throw std::runtime_error("Could not load image: " + p.path().string());
     }
 
-    images.push_back(image);
+    images.push_back(imageDouble);
   }
 
-  cv::Mat image;
-  cv::Mat blurredImage;
-  cv::Mat referenceEdges;
-  cv::Mat imageDouble;
-  image = images[0];
-  image.convertTo(imageDouble, CV_64F);
+  for (int i = 0; i != repeat; ++i) {
+    cv::Mat image;
+    cv::Mat blurredImage;
+    cv::Mat edges;
+    st = rdtsc();
 
-  st = rdtsc();
-  cv::GaussianBlur(image, blurredImage,
-                   cv::Size(GAUSSIAN_KERNEL_SIZE, GAUSSIAN_KERNEL_SIZE),
-                   GAUSSIAN_KERNEL_SIGMA, cv::BORDER_CONSTANT, 0);
-  cv::Canny(blurredImage, referenceEdges, CANNY_GRADIENT_LOWER_THRESHOLD,
-            CANNY_GRADIENT_UPPER_THRESHOLD);
+    image = images[0];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
 
-  et = rdtsc();
-  cvCannyTime += (et - st);
+    image = images[1];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
 
-  st = rdtsc();
-  auto edges = FastCanny(imageDouble, CANNY_GRADIENT_LOWER_THRESHOLD,
-                         CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
-                         GAUSSIAN_KERNEL_SIGMA);
-  et = rdtsc();
-  fastCannyTime += (et - st);
+    image = images[2];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
 
-  std::cout << "Canny time for OpenCV: " << cvCannyTime << "\n";
-  std::cout << "Canny time for FastCanny: " << fastCannyTime << "\n";
+    image = images[3];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
+
+    image = images[4];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
+
+    image = images[5];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
+
+    image = images[6];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
+
+    image = images[7];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
+
+    image = images[8];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
+
+    image = images[9];
+    FastCanny(image, CANNY_GRADIENT_LOWER_THRESHOLD,
+              CANNY_GRADIENT_UPPER_THRESHOLD, GAUSSIAN_KERNEL_SIZE,
+              GAUSSIAN_KERNEL_SIGMA);
+
+    et = rdtsc();
+    sum += (et - st);
+    runs++;
+  }
+
+  unsigned long long gaussianFilterKernelFLOPS = 9 + 8; // per pixel
+  unsigned long long intensityGradientsKernelFLOPS =
+      (9 + 8) * 2 + 4 + 3;                                   // per pixel
+  unsigned long long gradientMagnitudeThresholdingFLOPS = 0; // per pixel
+  unsigned long long doubleThresholdFLOPS = 0;               // per pixel
+  unsigned long long trackEdgeFLOPS = 0;
+
+  unsigned long long totalFLOPS =
+      10 * runs * imageMeta.width * imageMeta.height *
+      (gaussianFilterKernelFLOPS + intensityGradientsKernelFLOPS +
+       gradientMagnitudeThresholdingFLOPS + doubleThresholdFLOPS +
+       trackEdgeFLOPS);
+
+  std::cout << "Total runs: " << runs << "\n";
+  std::cout << "RDTSC Cycles Taken for Canny: " << sum << "\n";
+  std::cout << "Total FLOPS: " << totalFLOPS << "\n";
+  std::cout << "FLOPS Per Cycle: " << totalFLOPS / (sum * MAX_FREQ / BASE_FREQ)
+            << "\n";
 }
 
 int main(int argc, char *argv[]) {

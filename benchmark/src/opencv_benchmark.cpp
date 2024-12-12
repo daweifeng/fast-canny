@@ -30,7 +30,7 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long et;
   unsigned long long sum = 0;
   unsigned long long runs = 0;
-  int repeat = 1000;
+  int repeat = 10;
   std::vector<cv::Mat> images;
   images.reserve(NUM_IMAGES_PER_SIZE);
 
@@ -128,9 +128,9 @@ void TestImages(const CocoImageMeta &imageMeta) {
   unsigned long long gaussianFilterKernelFLOPS = 9 + 8; // per pixel
   unsigned long long intensityGradientsKernelFLOPS =
       (9 + 8) * 2 + 4 + 3;                                   // per pixel
-  unsigned long long gradientMagnitudeThresholdingFLOPS = 2; // per pixel
-  unsigned long long doubleThresholdFLOPS = 2;               // per pixel
-  unsigned long long trackEdgeFLOPS = 9;
+  unsigned long long gradientMagnitudeThresholdingFLOPS = 0; // per pixel
+  unsigned long long doubleThresholdFLOPS = 0;               // per pixel
+  unsigned long long trackEdgeFLOPS = 0;
 
   unsigned long long totalFLOPS =
       10 * runs * imageMeta.width * imageMeta.height *
@@ -162,7 +162,7 @@ int main(int argc, char *argv[]) {
   CocoImageMeta image1024 = {cocoImagePath / "1024x1024", 1024, 1024};
 
   try {
-    cv::setNumThreads(0);
+    // cv::setNumThreads(0);
 
     std::cout << "================================================" << "\n";
 

@@ -39,7 +39,7 @@ void NonMaxSuppressionSlow(double *input, double *output, double *theta,
         q = input[(i - 1) * width + (j - 1)];
         r = input[(i + 1) * width + (j + 1)];
       } else {
-        std::cerr << "Error: Invalid angle value: " << angle << std::endl;
+        // std::cerr << "Error: Invalid angle value: " << angle << std::endl;
       }
 
       // Keep the pixel value if it is a local maximum; otherwise, suppress it
@@ -179,7 +179,7 @@ void NonMaxSuppression(double *input, double *output, double *theta,
         q = input[(i - 1) * width + (j - 1)];
         r = input[(i + 1) * width + (j + 1)];
       } else {
-        std::cerr << "Error: Invalid angle value: " << angle << std::endl;
+        // std::cerr << "Error: Invalid angle value: " << angle << std::endl;
         q = r = 0.0;
       }
 

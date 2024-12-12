@@ -58,13 +58,24 @@ Then you can run the benchmark with the following command:
 ./build/benchmark/opencv_benchmark coco_images/
 ```
 
-### Running Gaussian Filter benchmark
+### Running each kernel's benchmark
 
 To run the Gaussian Filter benchmark, you can run the following command:
 
 ```bash
 ./build/benchmark/gaussian_filter_benchmark
 ```
+
+Similarly, you can run the other benchmarks by replacing `gaussian_filter_benchmark` with the name of the benchmark you want to run under the `build/benchmark` directory.
+
+### Running the Fast Canny edge detection benchmark
+
+To run the Fast Canny edge detection benchmark, you can run the following command:
+
+```bash
+./build/benchmark/fast_canny_benchmark coco_images/
+```
+
 
 
 ### Running the image download script
