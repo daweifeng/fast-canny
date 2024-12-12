@@ -29,7 +29,7 @@ void DoubleThreshold(double *input, double *output, int width, int height,
 
   __m256d low_vals = _mm256_set1_pd(low_thres);
   __m256d high_vals = _mm256_set1_pd(high_thres);
-  
+
   int i = 0;
   for (; i <= size - 12; i += 12) {
     __m256d input_vals_0 = _mm256_loadu_pd(&input[i]);
